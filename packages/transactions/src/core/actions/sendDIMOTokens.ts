@@ -57,9 +57,9 @@ export async function sendDIMOTokens(
   args: SendDIMOTokens,
   client: KernelAccountClient<EntryPoint, Transport, Chain, KernelSmartAccount<EntryPoint, Transport, Chain>>,
   environment: string = "prod"
-): Promise<`0x${string}`> {
+): Promise<any> {
   const contracts = CHAIN_ABI_MAPPING[ENV_MAPPING.get(environment) ?? ENVIRONMENT.DEV].contracts;
-  return await client.account.encodeCallData({
+  return {
     to: contracts[ContractType.DIMO_TOKEN].address,
     value: BigInt(0),
     data: encodeFunctionData({
@@ -67,7 +67,7 @@ export async function sendDIMOTokens(
       functionName: SEND_DIMO_TOKENS,
       args: [args.recipient, args.amount],
     }),
-  });
+  };
 }
 
 export async function sendDIMOTokensFromAccount(
@@ -75,7 +75,7 @@ export async function sendDIMOTokensFromAccount(
   walletClient: WalletClient<Transport, Chain, ParseAccount<Account | Address>, RpcSchema>,
   publicClient: PublicClient,
   environment: string = "prod"
-): Promise<`0x${string}`> {
+): Promise<any> {
   const contracts = CHAIN_ABI_MAPPING[ENV_MAPPING.get(environment) ?? ENVIRONMENT.DEV].contracts;
 
   const { request } = await publicClient.simulateContract({

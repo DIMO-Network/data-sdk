@@ -176,7 +176,7 @@ export class KernelSigner {
     const mintVehicleCallData = await mintVehicleWithDeviceDefinition(args, this.kernelClient, this.config.environment);
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: mintVehicleCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(mintVehicleCallData) as `0x${string}`,
       },
     });
     const txResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: userOpHash });
@@ -187,7 +187,7 @@ export class KernelSigner {
     const setVehiclePermissionsCallData = await setVehiclePermissions(args, this.kernelClient, this.config.environment);
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: setVehiclePermissionsCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(setVehiclePermissionsCallData) as `0x${string}`,
       },
     });
     const txResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: userOpHash });
@@ -198,7 +198,7 @@ export class KernelSigner {
     const setVehiclePermissionsCallData = await sendDIMOTokens(args, this.kernelClient, this.config.environment);
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: setVehiclePermissionsCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(setVehiclePermissionsCallData) as `0x${string}`,
       },
     });
     const txResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: userOpHash });
@@ -213,7 +213,7 @@ export class KernelSigner {
     const claimADCallData = await claimAftermarketDevice(args, this.kernelClient, this.config.environment);
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: claimADCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(claimADCallData) as `0x${string}`,
       },
     });
     const txResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: userOpHash });
@@ -224,7 +224,7 @@ export class KernelSigner {
     const pairADCallData = await pairAftermarketDevice(args, this.kernelClient, this.config.environment);
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: pairADCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(pairADCallData) as `0x${string}`,
       },
     });
     const txResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: userOpHash });
@@ -235,32 +235,23 @@ export class KernelSigner {
     args: ClaimAftermarketdevice & PairAftermarketDevice
   ): Promise<GetUserOperationReceiptReturnType> {
     const claimADCallData = await claimAftermarketDevice(args, this.kernelClient, this.config.environment);
-    const claimADHash = await this.kernelClient.sendUserOperation({
-      userOperation: {
-        callData: claimADCallData as `0x${string}`,
-      },
-    });
-    const claimADResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: claimADHash });
-
-    if (!claimADResult.success) {
-      return claimADResult;
-    }
-
     const pairADCallData = await pairAftermarketDevice(args, this.kernelClient, this.config.environment);
-    const pairADHash = await this.kernelClient.sendUserOperation({
+    
+
+    const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: pairADCallData as `0x${string}`,
-      },
-    });
-    const pairADResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: pairADHash });
-    return pairADResult;
+          callData: this.kernelClient.account.encodeCallData([claimADCallData,pairADCallData]) as `0x${string}`,
+      }
+      });
+    const claimAndPairResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: userOpHash });
+    return claimAndPairResult;
   }
 
   public async burnVehicle(args: BurnVehicle): Promise<GetUserOperationReceiptReturnType> {
     const burnVehicleCallData = await burnVehicle(args, this.kernelClient, this.config.environment);
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: burnVehicleCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(burnVehicleCallData) as `0x${string}`,
       },
     });
 
@@ -278,7 +269,7 @@ export class KernelSigner {
     );
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: burnVehicleCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(burnVehicleCallData) as `0x${string}`,
       },
     });
 
@@ -290,7 +281,7 @@ export class KernelSigner {
     const unpairADCallData = await unpairAftermarketDevice(args, this.kernelClient, this.config.environment);
     const userOpHash = await this.kernelClient.sendUserOperation({
       userOperation: {
-        callData: unpairADCallData as `0x${string}`,
+        callData: this.kernelClient.account.encodeCallData(unpairADCallData) as `0x${string}`,
       },
     });
     const txResult = await this.bundlerClient.waitForUserOperationReceipt({ hash: userOpHash });
