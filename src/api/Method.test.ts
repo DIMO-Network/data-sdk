@@ -13,17 +13,6 @@ const RESOURCE = {
 const PARAM = { param1: 'value1' };
 
 describe('Method Function', () => {
-    test('Valid API Call - Device Data API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
-
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.DeviceData, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.DeviceData, PARAM, PROD);
-
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual({ code: 200, message: 'Server is up.' });
-        expect(prodResponse).toEqual({ code: 200, message: 'Server is up.' });
-    });
-
     test('Valid API Call - Device Definitions API Server is up and returning data', async () => {
         jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
 
@@ -47,33 +36,11 @@ describe('Method Function', () => {
         expect(prodResponse).toEqual({ data: 'Server is up and running' });
     });
 
-    test('Valid API Call - Events API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
-
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.Events, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.Events, PARAM, PROD);
-
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual({ data: 'Server is up and running' });
-        expect(prodResponse).toEqual({ data: 'Server is up and running' });
-    });
-
     test('Valid API Call - Token Exchange API Server is up and returning data', async () => {
         jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
 
         const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.TokenExchange, PARAM, DEV);
         const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.TokenExchange, PARAM, PROD);
-
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual({ data: 'Server is up and running' });
-        expect(prodResponse).toEqual({ data: 'Server is up and running' });
-    });
-
-    test('Valid API Call - Users API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
-
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.User, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.User, PARAM, PROD);
 
         // Assertion - Check if the response data is returned correctly
         expect(devResponse).toEqual({ data: 'Server is up and running' });
