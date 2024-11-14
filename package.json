@@ -1,29 +1,28 @@
 {
-  "name": "@dimo-network/dimo-node-sdk",
-  "version": "1.2.0",
-  "description": "DIMO SDK for JavaScript",
+  "name": "@dimo-network/data-sdk",
+  "version": "1.2.1",
+  "description": "DIMO Data SDK for JavaScript",
   "main": "dist/index.js",
   "author": "James Li",
   "contributors": [],
   "license": "Apache-2.0",
   "type": "module",
   "keywords": [
-    "dimo-node-sdk"
+    "data-sdk"
   ],
-  "homepage": "https://dimo.zone/developers",
+  "homepage": "https://dimo.org/developers",
   "bugs": {
-    "url": "https://github.com/DIMO-Network/dimo-node-sdk/issues"
+    "url": "https://github.com/DIMO-Network/data-sdk/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DIMO-Network/dimo-node-sdk.git"
+    "url": "git+https://github.com/DIMO-Network/data-sdk.git"
   },
   "scripts": {
     "test": "jest",
     "build": "tsc"
   },
   "dependencies": {
-    "@streamr/sdk": "^101.0.1",
     "axios": "^1.6.7",
     "fs": "^0.0.1-security",
     "rxjs": "^7.8.1",

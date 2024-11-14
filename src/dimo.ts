@@ -8,32 +8,26 @@ import {
 
 import {
     Attestation,
-    Auth,
-    DeviceData, 
+    Auth, 
     DeviceDefinitions, 
     Devices,
-    Events,
     TokenExchange,
     Trips,
-    User, 
     Valuations, 
     VehicleSignalDecoding 
 } from './api/resources/DimoRestResources';
 
-import { Stream } from './streamr';
+// import { Stream } from './streamr';
 
 export class DIMO {
     public attestation: Attestation;
     public auth: Auth;
-    public devicedata: DeviceData;
     public devicedefinitions: DeviceDefinitions;
     public devices: Devices;
-    public events: Events;
     public identity: Identity;
     public telemetry: Telemetry;
     public tokenexchange: TokenExchange;
     public trips: Trips;
-    public user: User;
     public valuations: Valuations;
     public vehiclesignaldecoding: VehicleSignalDecoding;
 
@@ -46,13 +40,10 @@ export class DIMO {
          */
         this.attestation = new Attestation(DimoEnvironment[env].Attestation, env);
         this.auth = new Auth(DimoEnvironment[env].Auth, env);
-        this.devicedata = new DeviceData(DimoEnvironment[env].DeviceData, env);
         this.devicedefinitions = new DeviceDefinitions(DimoEnvironment[env].DeviceDefinitions, env);
         this.devices = new Devices(DimoEnvironment[env].Devices, env);
-        this.events = new Events(DimoEnvironment[env].Events, env);
         this.tokenexchange = new TokenExchange(DimoEnvironment[env].TokenExchange, env);
         this.trips = new Trips(DimoEnvironment[env].Trips, env);
-        this.user = new User(DimoEnvironment[env].User, env);
         this.valuations = new Valuations(DimoEnvironment[env].Valuations, env);
         this.vehiclesignaldecoding = new VehicleSignalDecoding(DimoEnvironment[env].VehicleSignalDecoding, env);
     }
@@ -97,14 +88,14 @@ export class DIMO {
         }
     }
 
-    async stream(streamId: string, clientId: string, privateKey: string, log?: string) {
-        try {
-            return Stream({ streamId, clientId, privateKey, log });
-        } catch (error: any) {
-            console.error('Streaming failed:', error.type);
-            throw new DimoError({
-                message: 'Subscribe to stream failed'
-            });
-        }
-    }
+    // async stream(streamId: string, clientId: string, privateKey: string, log?: string) {
+    //     try {
+    //         return Stream({ streamId, clientId, privateKey, log });
+    //     } catch (error: any) {
+    //         console.error('Streaming failed:', error.type);
+    //         throw new DimoError({
+    //             message: 'Subscribe to stream failed'
+    //         });
+    //     }
+    // }
 }
