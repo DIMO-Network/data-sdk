@@ -13,8 +13,7 @@ import {
     Devices,
     TokenExchange,
     Trips,
-    Valuations, 
-    VehicleSignalDecoding 
+    Valuations 
 } from './api/resources/DimoRestResources';
 
 // import { Stream } from './streamr';
@@ -29,7 +28,6 @@ export class DIMO {
     public tokenexchange: TokenExchange;
     public trips: Trips;
     public valuations: Valuations;
-    public vehiclesignaldecoding: VehicleSignalDecoding;
 
     constructor(env: keyof typeof DimoEnvironment) {
         this.identity = new Identity(DimoEnvironment[env].Identity, env);
@@ -45,7 +43,6 @@ export class DIMO {
         this.tokenexchange = new TokenExchange(DimoEnvironment[env].TokenExchange, env);
         this.trips = new Trips(DimoEnvironment[env].Trips, env);
         this.valuations = new Valuations(DimoEnvironment[env].Valuations, env);
-        this.vehiclesignaldecoding = new VehicleSignalDecoding(DimoEnvironment[env].VehicleSignalDecoding, env);
     }
 
     // Helper Function

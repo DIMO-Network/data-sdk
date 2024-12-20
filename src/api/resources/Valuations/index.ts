@@ -8,18 +8,18 @@ export class Valuations extends Resource {
         this.setResource({
             getValuations: {
                 method: 'GET',
-                path: '/v1/user/devices/:userDeviceId/valuations',
-                auth: 'access_token'
+                path: '/v2/vehicles/:tokenId/valuations',
+                auth: 'vehicle_jwt'
             },
             getInstantOffers: {
                 method: 'GET',
-                path: '/v1/user/devices/:userDeviceId/instant-offer',
-                auth: 'access_token'
+                path: '/v2/vehicles/:tokenId/instant-offer',
+                auth: 'vehicle_jwt'
             },
             getOffers: {
                 method: 'GET',
-                path: '/v1/user/devices/:userDeviceId/offers',
-                auth: 'access_token'
+                path: '/v2/vehicles/:tokenId/offers',
+                auth: 'vehicle_jwt'
             }
         })
     }

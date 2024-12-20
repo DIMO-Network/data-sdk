@@ -64,19 +64,17 @@ If you find a bug or have a suggestion for improving an existing example, please
 2. Under the `constructor`, locate a `this.setResource()` function call
 3. Update the endpoint of interest accordingly
 
-[Note] Some Vehicle Signal Decoding API endpoints uses `eth-addr` as one of the query parameters, for clarification and style purposes, please use `address` as the key when you pass a query parameter.
-
-### Updating SDK Functions
-1. Locate the functions under `/src/api/functions`
-2. Update existing functions or create new functions
-3. Export the modified function(s) in `/src/api/functions/index.ts`
-4. Locate the resource mapping under `/src/api/resources/<directory>/index.ts`
-5. Apply the new changes under `this.setResource()` function call
-
 ### Updating GraphQL Queries
 1. Locate the queries under `/src/graphql/resources/<directory>/index.ts`
 2. Under the `constructor`, locate a `this.setQueries()` function call
 3. Update the query of interest accordingly
+
+### Updating SDK Utility Functions
+1. Locate the functions under `/src/api/functions` or `/src/graphql/functions`
+2. Update existing functions or create new functions
+3. Export the modified function(s) in `/src/api/functions/index.ts` or `/src/graphql/functions/index.ts`
+4. Locate the resource mapping under `/src/api/resources/<directory>/index.ts` or `/src/graphql/resources/<directory>/index.ts`
+5. Apply the new changes under `this.setResource()` for REST API or `this.setQueries()` for GraphQL API
 
 ### Translating the README
 DIMO welcomes translation work done on the SDK.

@@ -9,8 +9,7 @@ export const Method = async(resource: any, baseUrl: any, params: any = {}, env: 
      */
 
     let headers: Record<string, string> = {};
-    
-    if (['access_token', 'privilege_token'].includes(resource.auth)) {
+    if (['developer_jwt', 'vehicle_jwt'].includes(resource.auth)) {
         if (params.headers.Authorization) {
             headers = params.headers;
         } else {
@@ -126,12 +125,12 @@ export const Method = async(resource: any, baseUrl: any, params: any = {}, env: 
             return response.data; 
         }
     
-        // Special returns for access_token & privilege token
+        // Special returns for different JWTs
         let authHeader = {};
     
-        if (resource.return === 'access_token') {
+        if (resource.return === 'developer_jwt') {
             authHeader = { Authorization: `Bearer ${response.data.access_token}` };
-        } else if (resource.return === 'privilege_token') {
+        } else if (resource.return === 'vehicle_jwt') {
             authHeader = { Authorization: `Bearer ${response.data.token}` };
         }
     

@@ -6,26 +6,26 @@ export class DeviceDefinitions extends Resource {
     constructor(api: any, env: keyof typeof DimoEnvironment) {
         super(api, 'DeviceDefinitions', env);
         this.setResource({
-            getByMMY: {
-                method: 'GET',
-                queryParams: {
-                    'make': true,
-                    'model': true,
-                    'year': true
+            decodeVin: {
+                method: 'POST',
+                path: '/device-definitions/decode-vin',
+                body: {
+                    countryCode: true,
+                    vin: true
                 },
-                path: '/device-definitions'
+                auth: 'developer_jwt'
             },
-            getById: {
+            search: {
                 method: 'GET',
-                path: '/device-definitions/:id'
-            },
-            listDeviceMakes: {
-                method: 'GET',
-                path: '/device-makes'
-            },
-            getDeviceTypeById: {
-                method: 'GET',
-                path: '/device-types/:id'
+                path: '/device-definitions/search',
+                queryParams: {
+                    query: true,
+                    makeSlug: false,
+                    modelSlug: false,
+                    year: false,
+                    page: false,
+                    pageSize: false
+                }
             }
         })
     }
