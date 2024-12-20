@@ -17,7 +17,6 @@ describe('Production Environment', () => {
         expect(dimo.tokenexchange.env).toBe(PROD);
         expect(dimo.trips.env).toBe(PROD);
         expect(dimo.valuations.env).toBe(PROD);
-        expect(dimo.vehiclesignaldecoding.env).toBe(PROD);
     });
     
     test('Production API endpoints are defined', () => {
@@ -30,7 +29,6 @@ describe('Production Environment', () => {
         expect(dimo.tokenexchange.api).toBeDefined;
         expect(dimo.trips.api).toBeDefined;
         expect(dimo.valuations.api).toBeDefined;
-        expect(dimo.vehiclesignaldecoding.api).toBeDefined;
     });    
 });
 
@@ -45,7 +43,6 @@ describe('Dev Environment', () => {
         expect(devDimo.tokenexchange.env).toBe(DEV);
         expect(devDimo.trips.env).toBe(DEV);
         expect(devDimo.valuations.env).toBe(DEV);
-        expect(devDimo.vehiclesignaldecoding.env).toBe(DEV);
     });
     
     test('Dev API endpoints are defined', () => {
@@ -58,7 +55,6 @@ describe('Dev Environment', () => {
         expect(devDimo.tokenexchange.api).toBeDefined;
         expect(devDimo.trips.api).toBeDefined;
         expect(devDimo.valuations.api).toBeDefined;
-        expect(devDimo.vehiclesignaldecoding.api).toBeDefined;
     });
 });
 

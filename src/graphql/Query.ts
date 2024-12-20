@@ -1,14 +1,16 @@
 import axios from 'axios';
+import * as functionIndex from '../graphql/functions/';
+import { DimoEnvironment } from '../environments';
 import { DimoError } from '../errors';
 
 // GraphQL query factory function
-export const Query = async(resource: any, baseUrl: any, params: any = {}) => {
+export const Query = async(resource: any, baseUrl: any, params: any = {}, env: keyof typeof DimoEnvironment) => {
     /**
      * Headers
      */
-
+    
     let headers: Record<string, string> = {};
-    if (['access_token', 'privilege_token'].includes(resource.auth)) {
+    if (['developer_jwt', 'vehicle_jwt'].includes(resource.auth)) {
         if (params.headers.Authorization) {
             headers = params.headers;
         } else {
@@ -24,6 +26,22 @@ export const Query = async(resource: any, baseUrl: any, params: any = {}) => {
             'Content-Type': 'application/json',
             'User-Agent': 'dimo-node-sdk'
         }   
+    }
+
+    // If resource.method is 'FUNCTION', call the function defined
+    if (resource.method === 'FUNCTION') {
+        const functionName = resource.path;
+        const dynamicFunction = (functionIndex as Record<string, Function>)[functionName];
+        if (typeof dynamicFunction === 'function') {
+            // Call the dynamic function with params and pass the necessary arguments
+            return dynamicFunction(params, env);
+        } else {
+            throw new DimoError({
+                message: `Function in ${resource.path} is not a valid function.`,
+                statusCode: 400
+            });
+        }
+
     }
 
     const variables = resource.params || {};
@@ -70,7 +88,7 @@ export const CustomQuery = async (resource: any, baseUrl: string, params: any = 
      */
 
     let headers: Record<string, string> = {};
-    if (['access_token', 'privilege_token'].includes(resource.auth)) {
+    if (['developer_jwt', 'vehicle_jwt'].includes(resource.auth)) {
         if (params.headers.Authorization) {
             headers = params.headers;
         } else {

@@ -5,12 +5,12 @@ export class Telemetry extends Resource {
     constructor(api: any, env: keyof typeof DimoEnvironment) {
         super(api, 'Telemetry', env);
         this.query({
-            auth: 'privilege_token',
+            auth: 'vehicle_jwt',
             query: true,
         }), 
         this.setQueries({
             getLatestSignals: {
-                auth: 'privilege_token',
+                auth: 'vehicle_jwt',
                 params: {
                     tokenId: true
                 },
@@ -35,6 +35,23 @@ export class Telemetry extends Resource {
                         }
                     }
                 }`
+            },
+            getLatestVinVC: {
+                auth: 'vehicle_jwt',
+                params: {
+                    tokenId: true
+                },
+                query: `
+                    query {
+                        vinVCLatest(tokenId: $tokenId) {
+                            vin
+                        }
+                }`
+            },
+            getVin: {
+                auth: 'vehicle_jwt',
+                method: 'FUNCTION',
+                path: 'getVin',
             }
         })
     }

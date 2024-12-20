@@ -22,6 +22,7 @@ export class Resource {
                 resources[key], // Setup the endpoint resources
                 this.api, // Setup the base URL
                 params, // Pass through the params
+                this.env
             );
         });
     }

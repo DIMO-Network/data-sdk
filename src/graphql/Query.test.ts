@@ -3,6 +3,8 @@ import { CustomQuery, Query } from './Query'; // Import the Query function to be
 import { DimoError } from '../errors';
 import { DimoEnvironment } from '../environments';
 
+const PROD = 'Production';
+const DEV = 'Dev';
 const RESOURCE = {
     method: 'POST',
     path: '',
@@ -45,9 +47,9 @@ describe('Query Function', () => {
         const params = { unexpectedParam: 'value1' };
 
         // Call the Query function and expect it to throw an error
-        await expect(Query(devResource, DimoEnvironment.Dev.Identity, params)).rejects.toThrow(DimoError);
-        await expect(Query(prodResource, DimoEnvironment.Production.Identity, params)).rejects.toThrow(DimoError);
-        await expect(Query(devResource, DimoEnvironment.Dev.Telemetry, params)).rejects.toThrow(DimoError);
-        await expect(Query(prodResource, DimoEnvironment.Production.Telemetry, params)).rejects.toThrow(DimoError);
+        await expect(Query(devResource, DimoEnvironment.Dev.Identity, params, DEV)).rejects.toThrow(DimoError);
+        await expect(Query(prodResource, DimoEnvironment.Production.Identity, params, PROD)).rejects.toThrow(DimoError);
+        await expect(Query(devResource, DimoEnvironment.Dev.Telemetry, params, DEV)).rejects.toThrow(DimoError);
+        await expect(Query(prodResource, DimoEnvironment.Production.Telemetry, params, PROD)).rejects.toThrow(DimoError);
     });
 });

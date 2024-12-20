@@ -34,7 +34,7 @@ export class Auth extends Resource {
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
                 },
-                return: 'access_token'
+                return: 'developer_jwt'
             },
             getToken: {
                 method: 'FUNCTION',

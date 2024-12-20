@@ -6,7 +6,7 @@
 ![X (formerly Twitter) URL](https://img.shields.io/twitter/url?url=https%3A%2F%2Ftwitter.com%2FDIMO_Network&style=social)
 
 # DIMO Data SDK
-This is an official DIMO Data SDK written in NodeJS/TypeScript. The objective of this project is to make our API more accessible to the general public.
+This is an official DIMO Data SDK written in TypeScript. The objective of this project is to make our API more accessible to the general public.
 
 ## Installation
 Use [npm](https://www.npmjs.com/package/@dimo-network/data-sdk):
@@ -33,53 +33,50 @@ Import the SDK library:
 import { DIMO } from '@dimo-network/data-sdk';
 ```
 
-Initiate the SDK depending on the environment of your interest, we currently support both `Production` and `Dev` environments:
+Initiate the SDK:
 
 ```ts
 const dimo = new DIMO('Production');
 ```
-or
 
-```ts
-const dimo = new DIMO('Dev');
-```
 ### Developer Registration
 As part of the authentication process, you will need to obtain a Developer License via the [DIMO Developer Console](https://console.dimo.org/). To get started with registration, follow the steps below:
 1. Sign up on the [DIMO Developer Console](https://console.dimo.org/).
-2. Get DIMO Credits either by paying in your local currency (via Stripe) or paying with a balance (if you have one).
+2. Get DIMO Credits (DCX) either by paying in your local currency (via Stripe) or paying with a balance (if you have one).
 3. Click on `Create app` and fill out the details about your project namespace (external-facing, e.g. `Drive2Survive LLC.`) and your application name (internal, e.g. `app-prod`)
-4. Generate an API key and add in your preferred redirect URI
+4. Generate an API key and add in your preferred redirect URI.
 
 ### Authentication
 
-The SDK provides you with all the steps needed in the [Authentication Flow](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) to obtain an `access_token`.
+The SDK provides you with all the steps needed in the [Authentication Flow](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) to obtain a Developer JWT.
 
 #### Prerequisites for Authentication
-1. A valid Developer License
-2. A valid API key
+1. A valid Developer License with a `client_id`
+2. A valid API key, generated via the Developer Console
+3. A proper [project set up with TypeScript](https://www.digitalocean.com/community/tutorials/setting-up-a-node-project-with-typescript).
 
 #### API Authentication
 
 ##### (Option 1 - PREFERRED) getToken Function
-As mentioned earlier, this is the streamlined function call to directly get the `access_token`. The `address` field in challenge generation is omitted since it is essentially the `client_id` of your application per Developer License:
+This is a utility function call to get a Developer JWT in one step:
 
 ```ts
-const authHeader = await dimo.auth.getToken({
+const developerJwt = await dimo.auth.getToken({
   client_id: '<client_id>',
   domain: '<domain>',
-  private_key: '<private_key>',
+  private_key: '<api_key>',
 });
 ```
 
-Once you have the `authHeader`, you'll have access to the DIMO API endpoints. For endpoints that require the authorization headers, you can simply pass the results.
+Once you have the `developerJwt`, you'll have access to the DIMO API endpoints. For endpoints that require the authorization headers, you can simply pass the results.
 
 ```ts
-// Pass the auth object to a protected endpoint
-await dimo.user.get(auth);
+// Pass the developerJwt object to a protected endpoint
+await dimo.user.get(developerJwt);
 
-// Pass the auth object to a protected endpoint with body parameters
+// Pass the developerJwt object to a protected endpoint with body parameters
 await dimo.tokenexchange.exchange({
-  ...auth,
+  ...developerJwt,
   privileges: [4],
   tokenId: <vehicle_token_id>
 });
@@ -93,7 +90,7 @@ Start by navigating to the SDK directory that was installed, if you used NPM, yo
 
 ```ts
 // After .credentials.json are provided
-const authHeader = await dimo.authenticate();
+const developerJwt = await dimo.authenticate();
 // The rest would be the same as option 1
 ```
 
@@ -102,20 +99,20 @@ The SDK supports async await and your typical JS Promises. HTTP operations can b
 
 ```ts
 // Async Await
-async function getAllDeviceMakes() {
+async function countCars() {
   try {
-    let response = await dimo.devicedefinitions.listDeviceMakes();
+    let response = await dimo.identity.countDimoVehicles();
     // Do something with the response
   }
   catch (err) { /* ... */ }
 }
-getAllDeviceMakes();
+countCars();
 ```
 
 ```js
 // JS Promises
-dimo.devicedefinitions.listDeviceMakes().then((result) => {
-    return result.device_makes.length;
+dimo.identity.countDimoVehicles().then((result) => {
+    return result;
   }).catch((err) => {
   /* ...handle the error... */
 });
@@ -125,9 +122,9 @@ dimo.devicedefinitions.listDeviceMakes().then((result) => {
 
 For query parameters, simply feed in an input that matches with the expected query parameters:
 ```ts
-dimo.devicedefinitions.getByMMY({
-  make: '<vehicle_make>',
-  model: '<vehicle_model',
+dimo.devicedefinitions.search({
+  query: '<query>',
+  makeSlug: '<makeSlug>',
   year: 2021
 });
 ```
@@ -135,17 +132,21 @@ dimo.devicedefinitions.getByMMY({
 
 For path parameters, simply feed in an input that matches with the expected path parameters:
 ```ts
-dimo.devicedefinitions.getById({ id: '26G4j1YDKZhFeCsn12MAlyU3Y2H' })
+dimo.attestation.createVinVC({
+  ...vehicle_jwt,
+  tokenId: 117315,
+  force: false
+})
 ```
 
-#### Permission Tokens
+#### Vehicle JWT
 
-As the 2nd leg of the API authentication, applications may exchange for short-lived [permissions JWT](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication#getting-a-jwt) for specific vehicles that granted permissions to the app. This uses the [DIMO Token Exchange API](https://docs.dimo.org/developer-platform/api-references/dimo-protocol/token-exchange-api/token-exchange-api-endpoints). 
+As the 2nd leg of the API authentication, applications may exchange for short-lived [Vehicle JWT](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication#getting-a-jwt) for specific vehicles that granted permissions to the app. This uses the [DIMO Token Exchange API](https://docs.dimo.org/developer-platform/api-references/dimo-protocol/token-exchange-api/token-exchange-api-endpoints). 
 
-For the end users of your application, they will need to share their vehicle permissions via the DIMO Mobile App or via your implementation of [Login with DIMO](https://docs.dimo.org/developer-platform/getting-started/developer-guide/login-with-dimo). Once vehicles are shared, you will be able to get a permissions JWT.
+For the end users of your application, they will need to share their vehicle permissions via the DIMO Mobile App or via your implementation of [Login with DIMO](https://docs.dimo.org/developer-platform/getting-started/developer-guide/login-with-dimo) or even by sharing on the Vehicle NFT directly. Once vehicles are shared, you will be able to get a Vehicle JWT.
 
 ```ts
-const privToken = await dimo.tokenexchange.exchange({
+const vehicle_jwt = await dimo.tokenexchange.exchange({
   ...auth,
   privileges: [1, 5],
   tokenId: <vehicle_token_id>
@@ -153,19 +154,19 @@ const privToken = await dimo.tokenexchange.exchange({
 
 // Vehicle Status uses privId 1
 await dimo.devicedata.getVehicleStatus({
-  ...privToken,
+  ...vehicle_jwt,
   tokenId: <vehicle_token_id>
 });
 
 // Proof of Movement Verifiable Credentials uses privId 4
 await dimo.attestation.createPomVC({
-  ...privToken,
+  ...vehicle_jwt,
   tokenId: <vehicle_token_id>
 })
 
 // VIN Verifiable Credentials uses privId 5
 await dimo.attestation.createVinVC({
-  ...privToken,
+  ...vehicle_jwt,
   tokenId: <vehicle_token_id>
 });
 ```
@@ -178,14 +179,14 @@ The SDK accepts any type of valid custom GraphQL queries, but we've also include
 The GraphQL entry points are designed almost identical to the REST API entry points. For any GraphQL API that requires auth headers (Telemetry API for example), you can use the same pattern as you would in the REST protected endpoints.
 
 ```ts
-const privToken = await dimo.tokenexchange.exchange({
-  ...auth,
+const vehicleJwt = await dimo.tokenexchange.exchange({
+  ...vehicleJwt,
   privileges: [1, 3, 4],
   tokenId: <vehicle_token_id>
 });
 
-const tele = await dimo.telemetry.query({
-  ...privToken,
+const something = await dimo.telemetry.query({
+  ...vehicleJwt,
   query: `
     query {
       some_valid_GraphQL_query
@@ -193,11 +194,24 @@ const tele = await dimo.telemetry.query({
   `
 });
 ```
+#### Getting a Vehicle's VIN
+In order to get to the VIN of a given vehicle, your application (aka Developer License) will need [permissions to view VIN credentials (Privilege ID: 5)](https://docs.dimo.org/developer-platform/api-references/token-exchange-api#privilege-definitions). As long as you have permissions to view the vehicle's VIN, simply call the `getVin` utility function.
+
+```ts
+const getVin = async(vehicle_jwt: any) => {
+    return await dimo.telemetry.getVin({
+        ...vehicle_jwt,
+        tokenId: <vehicle_token_id>
+    });
+}
+```
+
+This utility function streamlines two calls: [Creating a VIN VC on Attestation API](https://docs.dimo.org/developer-platform/api-references/attestation-api#create-a-vehicle-vin-vc) and [Getting the Latest VIN VC on Telemetry API](https://docs.dimo.org/developer-platform/api-references/attestation-api#create-a-vehicle-vin-vc).
 
 #### Send a custom GraphQL query
 To send a custom GraphQL query, you can simply call the `query` function on any GraphQL API Endpoints and pass in any valid GraphQL query. To check whether your GraphQL query is valid, please visit our [Identity API GraphQL Playground](https://identity-api.dimo.zone/) or [Telemetry API GraphQL Playground](https://telemetry-api.dimo.zone/).
 
-```js
+```ts
 const yourQuery = `{ 
     vehicles (first:10) {
       totalCount
