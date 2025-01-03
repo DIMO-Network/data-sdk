@@ -1,14 +1,20 @@
 {
   "name": "@dimo-network/data-sdk",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "DIMO Data SDK for JavaScript",
   "main": "dist/index.js",
   "author": "James Li",
   "contributors": [],
   "license": "Apache-2.0",
   "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
   "keywords": [
-    "data-sdk", "dimo", "dimo-network"
+    "data-sdk",
+    "dimo",
+    "dimo-network"
   ],
   "homepage": "https://dimo.org/developers",
   "bugs": {
@@ -20,7 +26,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc && npx rollup -c"
   },
   "dependencies": {
     "axios": "^1.6.7",
@@ -29,13 +35,20 @@
     "web3": "^4.6.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/dotenv-safe": "^8.1.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.25",
+    "@types/rollup-plugin-node-globals": "^1.4.5",
     "eslint": "^8.56.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
+    "rollup": "^4.29.1",
+    "rollup-plugin-node-globals": "^1.4.0",
     "ts-jest": "^29.1.4",
     "typescript": "^5.4.5"
   },

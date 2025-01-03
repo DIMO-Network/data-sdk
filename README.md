@@ -29,8 +29,15 @@ Please visit the DIMO [Developer Documentation](https://docs.dimo.org/developer-
 ## How to Use the SDK
 
 Import the SDK library:
+
+(TypeScript / ES Modules)
 ```ts
 import { DIMO } from '@dimo-network/data-sdk';
+```
+
+(CommonJS)
+```js
+const { DIMO } = require('@dimo-network/data-sdk/dist/index.cjs')
 ```
 
 Initiate the SDK:
