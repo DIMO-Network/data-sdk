@@ -37,7 +37,7 @@ import { DIMO } from '@dimo-network/data-sdk';
 
 (CommonJS)
 ```js
-const { DIMO } = require('@dimo-network/data-sdk/dist/index.cjs')
+const { DIMO } = require('@dimo-network/data-sdk')
 ```
 
 Initiate the SDK:
