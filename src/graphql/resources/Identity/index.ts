@@ -1,109 +1,77 @@
 import { Resource } from '../../Resource';
 import { DimoEnvironment } from '../../../environments';
+import { DimoConstants } from '../../../constants';
 
 export class Identity extends Resource {
     constructor(api: any, env: keyof typeof DimoEnvironment) {
         super(api, 'Identity', env);
         this.query({
-            query: true
+          query: true
         }), 
         this.setQueries({
-            countDimoVehicles: {
-                query: `
-                { 
-                    vehicles (first:10) {
-                        totalCount,
-                    }
-                }
-                `
+          getVehiclePrivileges: {
+            method: 'FUNCTION',
+            path: 'getVehiclePrivileges',
+          },
+          listSacdPerVehicleTokenId: {
+            params: {
+              tokenId: true,
+              after: true
             },
-            listVehicleDefinitionsPerAddress: {
-                params: {
-                    address: true,
-                    limit: true
-                },
-                query: `
-                {
-                    vehicles(filterBy: {owner: $address}, first: $limit) {
-                      nodes {
-                        aftermarketDevice {
-                            tokenId
-                            address
-                        }
-                          syntheticDevice {
-                            address
-                            tokenId
-                        }
-                        definition {
-                          make
-                          model
-                          year
-                        }
-                      }
-                    }
+            query: `
+            { 
+              vehicle(tokenId: $tokenId) {
+                sacds(first: ${DimoConstants.Query.PAGE_SIZE}, after: $after) {
+                  nodes {
+                    permissions
+                    grantee
                   }
-                `
+                  totalCount
+                  pageInfo {
+                    startCursor
+                    endCursor
+                  }
+                }
+              }
             }
-
+            `
+          },
+          countDimoVehicles: {
+            query: `
+            { 
+              vehicles (first: ${DimoConstants.Query.PAGE_SIZE}) {
+                  totalCount,
+              }
+            }
+            `
+          },
+          listVehicleDefinitionsPerAddress: {
+            params: {
+                address: true,
+                limit: true
+            },
+            query: `
+            {
+              vehicles(filterBy: {owner: $address}, first: $limit) {
+                nodes {
+                  aftermarketDevice {
+                      tokenId
+                      address
+                  }
+                    syntheticDevice {
+                      address
+                      tokenId
+                  }
+                  definition {
+                    make
+                    model
+                    year
+                  }
+                }
+              }
+            }
+          `
+          }
         })
     }
 }
-
-
-
-
-export const listVehicleDefinitionsPerAddress = (address: string, limit: number) => `
-{
-    vehicles(filterBy: {owner: "${address}"}, first: ${limit}) {
-      nodes {
-        aftermarketDevice {
-            tokenId
-            address
-        }
-          syntheticDevice {
-            address
-            tokenId
-        }
-        definition {
-          make
-          model
-          year
-        }
-      }
-    }
-  }
-`;
-
-// export const getVehicleDetailsByTokenId = (tokenId: number) => `
-// {
-//     vehicle (tokenId: ${tokenId}) {
-//       aftermarketDevice {
-//         tokenId
-//         address
-//       }
-//       syntheticDevice {
-//         address
-//         tokenId
-//       }
-//       definition {
-//         make
-//         model
-//         year
-//       }
-//     }
-//   }
-// `;
-
-// export const test = () => `
-// {
-//     vehicles(filterBy: {owner: "0xf9D26323Ab49179A6d57C26515B01De018553787"}, first: 10) {
-//       nodes {
-//         definition {
-//           make
-//           model
-//           year
-//         }
-//       }
-//     }
-//   }
-// `;

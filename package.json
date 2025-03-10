@@ -1,6 +1,6 @@
 {
   "name": "@dimo-network/data-sdk",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "DIMO Data SDK for JavaScript",
   "main": "dist/index.js",
   "author": "James Li",
@@ -31,6 +31,7 @@
   "dependencies": {
     "axios": "^1.6.7",
     "fs": "^0.0.1-security",
+    "jwt-decode": "^4.0.0",
     "rxjs": "^7.8.1",
     "web3": "^4.6.0"
   },

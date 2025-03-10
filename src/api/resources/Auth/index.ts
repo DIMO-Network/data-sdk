@@ -36,9 +36,9 @@ export class Auth extends Resource {
                 },
                 return: 'developer_jwt'
             },
-            getToken: {
+            getDeveloperJwt: {
                 method: 'FUNCTION',
-                path: 'getToken'
+                path: 'getDeveloperJwt'
             }
         })
     }

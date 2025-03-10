@@ -17,6 +17,10 @@ export class TokenExchange extends Resource {
                 },
                 auth: 'developer_jwt',
                 return: 'vehicle_jwt'
+            },
+            getVehicleJwt: {
+                method: 'FUNCTION',
+                path: 'getVehicleJwt'
             }
         })
     }
