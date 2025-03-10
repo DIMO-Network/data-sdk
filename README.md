@@ -55,33 +55,28 @@ As part of the authentication process, you will need to obtain a Developer Licen
 
 ### Authentication
 
-The SDK provides you with all the steps needed in the [Authentication Flow](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) to obtain a Developer JWT.
+The SDK provides you with all the steps needed in the [Authentication Flow](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) to obtain a Developer JWT & to get Vehicle JWT for each vehicle shared with your app.
 
-#### Prerequisites for Authentication
-1. A valid Developer License with a `client_id`
-2. A valid API key, generated via the Developer Console
 3. A proper [project set up with TypeScript](https://www.digitalocean.com/community/tutorials/setting-up-a-node-project-with-typescript).
 
-#### API Authentication
+#### Developer JWT
+To get a Developer JWT, you will need a valid Developer License with a `client_id`, a generated `api_key`, and a `domain`/`redirect_uri` you configured on the Developer Console.
 
-##### (Option 1 - PREFERRED) getToken Function
+##### (Option 1 - PREFERRED) getDeveloperJwt Function
 This is a utility function call to get a Developer JWT in one step:
 
 ```ts
-const developerJwt = await dimo.auth.getToken({
+const developerJwt = await dimo.auth.getDeveloperJwt({
   client_id: '<client_id>',
-  domain: '<domain>',
+  domain: '<domain/redirect_uri>',
   private_key: '<api_key>',
 });
 ```
 
-Once you have the `developerJwt`, you'll have access to the DIMO API endpoints. For endpoints that require the authorization headers, you can simply pass the results.
+Once you have the `developerJwt`, you'll have access to the DIMO API as a verified developer. For endpoints that require the authorization headers, you can simply pass the results.
 
 ```ts
 // Pass the developerJwt object to a protected endpoint
-await dimo.user.get(developerJwt);
-
-// Pass the developerJwt object to a protected endpoint with body parameters
 await dimo.tokenexchange.exchange({
   ...developerJwt,
   privileges: [4],
@@ -99,6 +94,54 @@ Start by navigating to the SDK directory that was installed, if you used NPM, yo
 // After .credentials.json are provided
 const developerJwt = await dimo.authenticate();
 // The rest would be the same as option 1
+```
+
+#### Vehicle JWT
+
+To get vehicle data from an end user, your application will need to exchange for a short-lived [Vehicle JWT](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication#getting-a-jwt) for vehicles that have granted permissions to your app. 
+
+For the end users of your application, they will need to have already shared their vehicle permissions via the DIMO Mobile App or via your implementation of [Login with DIMO](https://docs.dimo.org/developer-platform/getting-started/developer-guide/login-with-dimo) before you can fetch for their vehicle data.
+
+##### (Option 1 - PREFERRED) getVehicleJwt Function
+This is a utility function call to get a Vehicle JWT in one step by inputting your developer JWT obtained earlier with the vehicle's identifier (`tokenId`):
+
+```ts
+const vehicleJwt = await dimo.tokenexchange.getVehicleJwt({
+  ...developerJwt,
+  tokenId: 117315
+});
+```
+
+##### (Option 2) Manually exchanging for Vehicle JWT
+
+```ts
+const vehicle_jwt = await dimo.tokenexchange.exchange({
+  ...auth,
+  privileges: [1, 5],
+  tokenId: <vehicle_token_id>
+});
+```
+
+Once you have the `vehicleJwt`, you'll have access to the vehicle data for a specific vehicle. For endpoints that require the authorization headers, you can pass the results.
+
+```ts
+// Vehicle Status uses privId 1
+await dimo.devicedata.getVehicleStatus({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>
+});
+
+// Proof of Movement Verifiable Credentials uses privId 4
+await dimo.attestation.createPomVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>
+})
+
+// VIN Verifiable Credentials uses privId 5
+await dimo.attestation.createVinVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>
+});
 ```
 
 ### Querying the DIMO REST API
@@ -146,41 +189,9 @@ dimo.attestation.createVinVC({
 })
 ```
 
-#### Vehicle JWT
-
-As the 2nd leg of the API authentication, applications may exchange for short-lived [Vehicle JWT](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication#getting-a-jwt) for specific vehicles that granted permissions to the app. This uses the [DIMO Token Exchange API](https://docs.dimo.org/developer-platform/api-references/dimo-protocol/token-exchange-api/token-exchange-api-endpoints). 
-
-For the end users of your application, they will need to share their vehicle permissions via the DIMO Mobile App or via your implementation of [Login with DIMO](https://docs.dimo.org/developer-platform/getting-started/developer-guide/login-with-dimo) or even by sharing on the Vehicle NFT directly. Once vehicles are shared, you will be able to get a Vehicle JWT.
-
-```ts
-const vehicle_jwt = await dimo.tokenexchange.exchange({
-  ...auth,
-  privileges: [1, 5],
-  tokenId: <vehicle_token_id>
-});
-
-// Vehicle Status uses privId 1
-await dimo.devicedata.getVehicleStatus({
-  ...vehicle_jwt,
-  tokenId: <vehicle_token_id>
-});
-
-// Proof of Movement Verifiable Credentials uses privId 4
-await dimo.attestation.createPomVC({
-  ...vehicle_jwt,
-  tokenId: <vehicle_token_id>
-})
-
-// VIN Verifiable Credentials uses privId 5
-await dimo.attestation.createVinVC({
-  ...vehicle_jwt,
-  tokenId: <vehicle_token_id>
-});
-```
-
 ### Querying the DIMO GraphQL API
 
-The SDK accepts any type of valid custom GraphQL queries, but we've also included a few sample queries to help you understand the DIMO GraphQL APIs. 
+The SDK accepts any type of valid custom GraphQL queries, but we've also included a few sample queries to help you understand the DIMO GraphQL APIs. There's also a helper function called `paginate` that you can use to paginate through the GraphQL pages, see `getVehiclePrivileges.ts` on how it's being used.
 
 #### Authentication for GraphQL API
 The GraphQL entry points are designed almost identical to the REST API entry points. For any GraphQL API that requires auth headers (Telemetry API for example), you can use the same pattern as you would in the REST protected endpoints.

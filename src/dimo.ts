@@ -67,7 +67,7 @@ export class DIMO {
             const data = fs.readFileSync('.credentials.json', 'utf8');
             const credentials = JSON.parse(data);
     
-            const authHeader = await this.auth.getToken({
+            const authHeader = await this.auth.getDeveloperJwt({
                 client_id: credentials.client_id,
                 domain: credentials.redirect_uri,
                 private_key: credentials.private_key,
