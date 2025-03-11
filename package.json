@@ -53,5 +53,8 @@
     "ts-jest": "^29.1.4",
     "typescript": "^5.4.5"
   },
+  "optionalDependencies": { 
+    "@rollup/rollup-linux-x64-gnu": "*" 
+  },
   "types": "./dist/index.d.ts"
 }
