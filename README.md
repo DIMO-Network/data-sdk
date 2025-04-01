@@ -198,7 +198,7 @@ The GraphQL entry points are designed almost identical to the REST API entry poi
 
 ```ts
 const vehicleJwt = await dimo.tokenexchange.exchange({
-  ...vehicleJwt,
+  ...developerJwt,
   privileges: [1, 3, 4],
   tokenId: <vehicle_token_id>
 });
