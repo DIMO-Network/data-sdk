@@ -49,14 +49,16 @@ const dimo = new DIMO('Production');
 ### Developer Registration
 As part of the authentication process, you will need to obtain a Developer License via the [DIMO Developer Console](https://console.dimo.org/). To get started with registration, follow the steps below:
 1. Sign up on the [DIMO Developer Console](https://console.dimo.org/).
-2. Get DIMO Credits (DCX) either by paying in your local currency (via Stripe) or paying with a balance (if you have one).
-3. Click on `Create app` and fill out the details about your project namespace (external-facing, e.g. `Drive2Survive LLC.`) and your application name (internal, e.g. `app-prod`)
-4. Generate an API key and add in your preferred redirect URI.
+2. Click on `Create a license` and fill out the details about your license.
+3. Generate an API key and add in your preferred redirect URI.
 
 ### Authentication
 
 The SDK provides you with all the steps needed in the [Authentication Flow](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) to obtain a Developer JWT & to get Vehicle JWT for each vehicle shared with your app.
 
+#### Prerequisites for Authentication
+1. A valid Developer License with a `client_id`
+2. A valid API key, generated via the Developer Console
 3. A proper [project set up with TypeScript](https://www.digitalocean.com/community/tutorials/setting-up-a-node-project-with-typescript).
 
 #### Developer JWT
