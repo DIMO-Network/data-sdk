@@ -82,5 +82,5 @@ const vehicleJwt = await dimo.tokenexchange.getVehicleJwt({
 });
 ```
 
-## 貢獻 SDK 的方法
+## SDK 貢獻
 有關如何貢獻於此 SDK 的詳細資訊，請參閱[此處](https://github.com/DIMO-Network/data-sdk/blob/master/CONTRIBUTING.md)。
