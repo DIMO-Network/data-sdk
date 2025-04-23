@@ -53,7 +53,7 @@ const dimo = new DIMO('Production');
 3. API キー（API Key）を生成し、希望するリダイレクト URI（RedirectURI）を追加します。
 
 ### 開発者認証
-SDK は、[認証フロー](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) に必要なすべての手順を提供し、「開発者 JWT」（Developer JWT） を取得し、アプリと共有されている各車両の「車両 JWT」（Vehicle JWT） を取得することができます。
+本 SDK は、「開発者用 JWT を取得するための[認証フロー](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) に必要なすべての手順」と、「アプリと共有された各車両に対して Vehicle JWT を取得するための手順」を提供します。
 
 #### 認証の前提条件
 1. 開発者ライセンス
