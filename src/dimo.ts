@@ -100,15 +100,4 @@ export class DIMO {
 			});
 		}
 	}
-
-	// async stream(streamId: string, clientId: string, privateKey: string, log?: string) {
-	//     try {
-	//         return Stream({ streamId, clientId, privateKey, log });
-	//     } catch (error: any) {
-	//         console.error('Streaming failed:', error.type);
-	//         throw new DimoError({
-	//             message: 'Subscribe to stream failed'
-	//         });
-	//     }
-	// }
 }
