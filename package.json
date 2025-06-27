@@ -1,10 +1,10 @@
 {
   "name": "@dimo-network/data-sdk",
-  "version": "1.2.5",
+  "version": "1.3.0",
   "description": "DIMO Data SDK for JavaScript",
   "main": "dist/index.js",
   "author": "James Li",
-  "contributors": [],
+  "contributors": ["Yusuf Çırak"],
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
