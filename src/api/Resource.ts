@@ -1,8 +1,8 @@
 /** @format */
 
-import { Method } from "./Method";
-import { DimoEnvironment } from "../environments";
-import { ResourceMap } from "./types/Endpoint";
+import { Method } from './Method';
+import { DimoEnvironment } from '../environments';
+import { ResourceMap } from './types/Endpoint';
 
 export class Resource<TApi = string> {
 	[key: string]: any;
