@@ -3,8 +3,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import globals from 'rollup-plugin-node-globals';
-import babel from '@rollup/plugin-babel';
-import plugin from 'eslint-plugin-import';
 
 export default {
   input: './src/index.ts',
