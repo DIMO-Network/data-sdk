@@ -24,7 +24,7 @@ export default {
       entryFileNames: 'cjs/[name].js',
       format: 'cjs',
       sourcemap: true,
-      plugins:[
+      plugins: [
         globals(), // Provides global variables for Node.js built-ins
       ]
     },
