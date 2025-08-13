@@ -3,20 +3,40 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import globals from 'rollup-plugin-node-globals';
-
+import babel from '@rollup/plugin-babel';
+import plugin from 'eslint-plugin-import';
 
 export default {
   input: './src/index.ts',
-  output: {
-    file: './dist/index.cjs',
-    format: 'cjs',
-  },
+  output: [
+    {
+      dir: './dist',
+      entryFileNames: 'esm/[name].js',
+      format: 'esm',
+      sourcemap: true,
+    },
+    {
+      dir: './dist',
+      entryFileNames: 'cjs/[name].js',
+      format: 'cjs',
+      sourcemap: true,
+      plugins:[
+        globals(),        
+      ]
+    },
+  ],
   plugins: [
-    resolve({ preferBuiltins: true }), // Resolves node_modules and relative paths
-    commonjs(), // Converts CommonJS modules to ES6
-    typescript(), // Handles TypeScript (if needed)
-    json(),
-    globals(),
+    typescript({
+      tsconfig: './tsconfig.json',
+      declaration: true,
+      declarationDir: './dist/types',
+    }), // Handles TypeScript (if needed)
+    resolve({ 
+      preferBuiltins: true, 
+      extensions: ['.js', '.ts'],
+    }), // Resolves node_modules and relative paths     
+    commonjs(),// Converts CommonJS modules to ES6   
+    json(),    
   ],
   onwarn(warning, warn) {
     // Print detailed warnings
