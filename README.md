@@ -141,8 +141,7 @@ For path parameters, simply feed in an input that matches with the expected path
 ```ts
 dimo.attestation.createVinVC({
   ...vehicle_jwt,
-  tokenId: 117315,
-  force: false
+  tokenId: 117315
 })
 ```
 
@@ -165,16 +164,32 @@ await dimo.devicedata.getVehicleStatus({
   tokenId: <vehicle_token_id>
 });
 
-// Proof of Movement Verifiable Credentials uses privId 4
-await dimo.attestation.createPomVC({
-  ...vehicle_jwt,
-  tokenId: <vehicle_token_id>
-})
-
 // VIN Verifiable Credentials uses privId 5
 await dimo.attestation.createVinVC({
   ...vehicle_jwt,
   tokenId: <vehicle_token_id>
+});
+
+// Odometer Statement Verifiable Credentials uses privId 4
+await dimo.attestation.createOdometerStatementVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>,
+  timestamp: '2023-01-01T00:00:00Z' // Optional timestamp
+});
+
+// Vehicle Health Verifiable Credentials uses privId 4
+await dimo.attestation.createVehicleHealthVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>,
+  startTime: '2023-01-01T00:00:00Z',
+  endTime: '2023-01-15T00:00:00Z'
+});
+
+// Vehicle Position Verifiable Credentials uses privId 4
+await dimo.attestation.createVehiclePositionVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>,
+  timestamp: '2023-01-01T00:00:00Z'
 });
 ```
 

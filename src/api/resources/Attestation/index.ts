@@ -8,16 +8,33 @@ export class Attestation extends Resource {
         this.setResource({
             createVinVC: {
                 method: 'POST',
-                path: '/v1/vc/vin/:tokenId',
+                path: '/v2/attestation/vin/:tokenId',
+                auth: 'vehicle_jwt'
+            },
+            createOdometerStatementVC: {
+                method: 'POST',
+                path: '/v2/attestation/odometer-statement/:tokenId',
                 auth: 'vehicle_jwt',
-                queryParams: {
-                  'force': false
+                body: {
+                    'timestamp': false  // Optional parameter
                 }
             },
-            createPomVC: {
+            createVehicleHealthVC: {
                 method: 'POST',
-                path: '/v1/vc/pom/:tokenId',
-                auth: 'vehicle_jwt'
+                path: '/v2/attestation/vehicle-health/:tokenId',
+                auth: 'vehicle_jwt',
+                body: {
+                    'startTime': true,  // Required parameter
+                    'endTime': true     // Required parameter
+                }
+            },
+            createVehiclePositionVC: {
+                method: 'POST',
+                path: '/v2/attestation/vehicle-position/:tokenId',
+                auth: 'vehicle_jwt',
+                body: {
+                    'timestamp': true   // Required parameter
+                }
             }
         })
     }
