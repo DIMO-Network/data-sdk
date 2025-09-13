@@ -1,3 +1,4 @@
-import { getVin } from "./getVin";
+import { getVehiclePrivileges } from './getVehiclePrivileges';
+import { getVin } from './getVin';
 
-export { getVin };
+export { getVehiclePrivileges, getVin };

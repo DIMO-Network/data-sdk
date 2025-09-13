@@ -1,15 +1,21 @@
 {
   "name": "@dimo-network/data-sdk",
-  "version": "1.2.3",
+  "version": "1.3.2",
   "description": "DIMO Data SDK for JavaScript",
-  "main": "dist/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "author": "James Li",
-  "contributors": [],
+  "contributors": [
+    "Yusuf Çırak",
+    "Eduardo Rodriguez"
+  ],
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    "import": "./dist/index.js",
-    "require": "./dist/index.cjs"
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js",
+    "types": "./dist/types/index.d.ts"
   },
   "keywords": [
     "data-sdk",
@@ -31,6 +37,7 @@
   "dependencies": {
     "axios": "^1.6.7",
     "fs": "^0.0.1-security",
+    "jwt-decode": "^4.0.0",
     "rxjs": "^7.8.1",
     "web3": "^4.6.0"
   },
@@ -52,5 +59,7 @@
     "ts-jest": "^29.1.4",
     "typescript": "^5.4.5"
   },
-  "types": "./dist/index.d.ts"
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "*"
+  }
 }

@@ -50,15 +50,13 @@ export const Query = async(resource: any, baseUrl: any, params: any = {}, env: k
     for (const key in variables) {
         const placeholder = new RegExp(`\\$${key}\\b`, 'g');
         if (variables[key] === true) {
-            if (!params[key]) {
-                console.error(`Missing required input: ${key}`);
-                throw new DimoError({
-                    message: `Missing required input: ${key}`,
-                    statusCode: 400
-                });
+            if (params[key] === undefined || params[key] === null) {
+                // ACC-303: Replace the placeholder with null string to handle pagination
+                query = query.replace(placeholder, "null");
+            } else {
+                const value = typeof params[key] === 'string' ? `"${params[key]}"` : params[key];
+                query = query.replace(placeholder, value);
             }
-            const value = typeof params[key] === 'string' ? `"${params[key]}"` : params[key];
-            query = query.replace(placeholder, value);
         }
     }
 

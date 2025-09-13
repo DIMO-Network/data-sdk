@@ -4,19 +4,43 @@ import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
 import globals from 'rollup-plugin-node-globals';
 
+const external = [
+  // Node built-ins:
+  'node:util','util','node:stream','stream','path','fs','events','buffer','os','http','https','url','zlib','tty'
+];
 
 export default {
   input: './src/index.ts',
-  output: {
-    file: './dist/index.cjs',
-    format: 'cjs',
-  },
+  external: external,
+  output: [
+    {
+      dir: './dist',
+      entryFileNames: 'esm/[name].js',
+      format: 'esm',
+      sourcemap: true,
+    },
+    {
+      dir: './dist',
+      entryFileNames: 'cjs/[name].js',
+      format: 'cjs',
+      sourcemap: true,
+      plugins: [
+        globals(), // Provides global variables for Node.js built-ins
+      ]
+    },
+  ],
   plugins: [
-    resolve({ preferBuiltins: true }), // Resolves node_modules and relative paths
-    commonjs(), // Converts CommonJS modules to ES6
-    typescript(), // Handles TypeScript (if needed)
-    json(),
-    globals(),
+    typescript({
+      tsconfig: './tsconfig.json',
+      declaration: true,
+      declarationDir: './dist/types',
+    }), // Handles TypeScript (if needed)
+    resolve({ 
+      preferBuiltins: true, 
+      extensions: ['.js', '.ts'],
+    }), // Resolves node_modules and relative paths     
+    commonjs(),// Converts CommonJS modules to ES6   
+    json(), // Allows importing JSON files
   ],
   onwarn(warning, warn) {
     // Print detailed warnings
