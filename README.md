@@ -186,9 +186,56 @@ For path parameters, simply feed in an input that matches with the expected path
 ```ts
 dimo.attestation.createVinVC({
   ...vehicle_jwt,
-  tokenId: 117315,
-  force: false
+  tokenId: 117315
 })
+```
+
+#### Vehicle JWT
+
+As the 2nd leg of the API authentication, applications may exchange for short-lived [Vehicle JWT](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication#getting-a-jwt) for specific vehicles that granted permissions to the app. This uses the [DIMO Token Exchange API](https://docs.dimo.org/developer-platform/api-references/dimo-protocol/token-exchange-api/token-exchange-api-endpoints). 
+
+For the end users of your application, they will need to share their vehicle permissions via the DIMO Mobile App or via your implementation of [Login with DIMO](https://docs.dimo.org/developer-platform/getting-started/developer-guide/login-with-dimo) or even by sharing on the Vehicle NFT directly. Once vehicles are shared, you will be able to get a Vehicle JWT.
+
+```ts
+const vehicle_jwt = await dimo.tokenexchange.exchange({
+  ...auth,
+  privileges: [1, 5],
+  tokenId: <vehicle_token_id>
+});
+
+// Vehicle Status uses privId 1
+await dimo.devicedata.getVehicleStatus({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>
+});
+
+// VIN Verifiable Credentials uses privId 5
+await dimo.attestation.createVinVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>
+});
+
+// Odometer Statement Verifiable Credentials uses privId 4
+await dimo.attestation.createOdometerStatementVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>,
+  timestamp: '2023-01-01T00:00:00Z' // Optional timestamp
+});
+
+// Vehicle Health Verifiable Credentials uses privId 4
+await dimo.attestation.createVehicleHealthVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>,
+  startTime: '2023-01-01T00:00:00Z',
+  endTime: '2023-01-15T00:00:00Z'
+});
+
+// Vehicle Position Verifiable Credentials uses privId 4
+await dimo.attestation.createVehiclePositionVC({
+  ...vehicle_jwt,
+  tokenId: <vehicle_token_id>,
+  timestamp: '2023-01-01T00:00:00Z'
+});
 ```
 
 ### Querying the DIMO GraphQL API
