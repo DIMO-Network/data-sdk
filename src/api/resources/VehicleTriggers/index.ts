@@ -3,9 +3,9 @@
 import { Resource } from '../../Resource';
 import { DimoEnvironment } from '../../../environments';
 
-class VehicleEvents extends Resource {
+class VehicleTriggers extends Resource {
 	constructor(api: any, env: keyof typeof DimoEnvironment) {
-		super(api, 'VehicleEvents', env);
+		super(api, 'VehicleTriggers', env);
 		this.setResource({
 			listWebhooks: {
 				method: 'GET',
@@ -17,13 +17,14 @@ class VehicleEvents extends Resource {
 				path: '/v1/webhooks',
 				body: {
 					service: true,
-					data: true,
-					trigger: true,
-					setup: true,
+					metricName: true,
+					condition: true,
+					coolDownPeriod: true,
 					description: false,
-					target_uri: true,
+					targetURL: true,
 					status: true,
-					verification_token: true,
+					verificationToken: true,
+					displayName: false
 				},
 				auth: 'developer_jwt',
 			},
@@ -31,14 +32,7 @@ class VehicleEvents extends Resource {
 				method: 'PUT',
 				path: '/v1/webhooks/:webhookId',
 				body: {
-					service: true,
-					data: true,
-					trigger: true,
-					setup: true,
-					description: false,
-					target_uri: true,
-					status: true,
-					verification_token: true,
+					request: true
 				},
 				auth: 'developer_jwt',
 			},
@@ -59,12 +53,12 @@ class VehicleEvents extends Resource {
 			},
 			listVehicleSubscriptions: {
 				method: 'GET',
-				path: '/v1/webhooks/vehicles/:tokenId',
+				path: '/v1/webhooks/vehicles/:tokenDID',
 				auth: 'developer_jwt',
 			},
 			subscribeVehicle: {
 				method: 'POST',
-				path: '/v1/webhooks/:webhookId/subscribe/:tokenId',
+				path: '/v1/webhooks/:webhookId/subscribe/:tokenDID',
 				auth: 'developer_jwt',
 			},
 			subscribeAllVehicles: {
@@ -74,7 +68,7 @@ class VehicleEvents extends Resource {
 			},
 			unsubscribeVehicle: {
 				method: 'DELETE',
-				path: '/v1/webhooks/:webhookId/unsubscribe/:tokenId',
+				path: '/v1/webhooks/:webhookId/unsubscribe/:tokenDID',
 				auth: 'developer_jwt',
 			},
 			unsubscribeAllVehicles: {
@@ -86,4 +80,4 @@ class VehicleEvents extends Resource {
 	}
 }
 
-export { VehicleEvents };
+export { VehicleTriggers };
