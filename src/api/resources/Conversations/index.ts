@@ -15,7 +15,6 @@ export class Conversations extends Resource {
                 path: '/agents',
                 body: {
                     'user': true,
-                    'admin': false,
                     'vehicleIds': false,
                     // TODO: update with web search capabilities
                     // 'enableWebsearch': false
