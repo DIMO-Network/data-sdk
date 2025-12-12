@@ -16,8 +16,6 @@ export class Conversations extends Resource {
                 body: {
                     'user': true,
                     'vehicleIds': false,
-                    // TODO: update with web search capabilities
-                    // 'enableWebsearch': false
                 },
                 auth: 'developer_jwt'
             },
