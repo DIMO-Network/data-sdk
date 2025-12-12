@@ -8,6 +8,7 @@ import { Identity, Telemetry } from "./graphql/resources/DimoGraphqlResources";
 import {
 	Attestation,
 	Auth,
+	Conversations,
 	DeviceDefinitions,
 	Devices,
 	TokenExchange,
@@ -21,6 +22,7 @@ import {
 export class DIMO {
 	public attestation: Attestation;
 	public auth: Auth;
+	public conversations: Conversations;
 	public devicedefinitions: DeviceDefinitions;
 	public devices: Devices;
 	public identity: Identity;
@@ -39,6 +41,10 @@ export class DIMO {
 		 */
 		this.attestation = new Attestation(DimoEnvironment[env].Attestation, env);
 		this.auth = new Auth(DimoEnvironment[env].Auth, env);
+		this.conversations = new Conversations(
+			DimoEnvironment[env].Conversations,
+			env,
+		);
 		this.devicedefinitions = new DeviceDefinitions(
 			DimoEnvironment[env].DeviceDefinitions,
 			env,

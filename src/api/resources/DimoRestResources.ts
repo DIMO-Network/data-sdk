@@ -2,6 +2,7 @@
 
 import { Attestation } from './Attestation';
 import { Auth } from './Auth';
+import { Conversations } from './Conversations';
 import { DeviceDefinitions } from './DeviceDefinitions';
 import { Devices } from './Devices';
 import { TokenExchange } from './TokenExchange';
@@ -12,6 +13,7 @@ import { VehicleTriggers } from './VehicleTriggers';
 export {
 	Attestation,
 	Auth,
+	Conversations,
 	DeviceDefinitions,
 	Devices,
 	TokenExchange,
