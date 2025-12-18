@@ -96,13 +96,18 @@ export const Method = async(resource: any, baseUrl: any, params: any = {}, env: 
 
     if (resource.body) {
         for (const key in resource.body) {
-            if (typeof resource.body[key] === 'boolean') {
+            if (resource.body[key] === true) {
+                // Required field
                 if (!params[key]) {
                     console.error(`Missing required body parameter: ${key}`);
                     throw new DimoError({
                         message: `Missing required body parameter: ${key}`
                     });
-                } else {
+                }
+                body[key] = params[key];
+            } else if (resource.body[key] === false) {
+                // Optional field - include only if provided
+                if (params[key] !== undefined) {
                     body[key] = params[key];
                 }
             } else if (typeof resource.body[key] === 'string') {

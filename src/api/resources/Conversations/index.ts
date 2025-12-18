@@ -14,8 +14,10 @@ export class Conversations extends Resource {
                 method: 'POST',
                 path: '/agents',
                 body: {
-                    'user': true,
-                    'vehicleIds': false,
+                    'personality': true,
+                    'secrets': true,
+                    'type': true,
+                    'variables': true,
                 },
                 auth: 'developer_jwt'
             },
