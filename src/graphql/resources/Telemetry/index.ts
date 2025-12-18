@@ -52,6 +52,11 @@ export class Telemetry extends Resource {
                 auth: 'vehicle_jwt',
                 method: 'FUNCTION',
                 path: 'getVin',
+            },
+            getTrips: {
+                auth: 'vehicle_jwt',
+                method: 'FUNCTION',
+                path: 'getTrips',
             }
         })
     }
