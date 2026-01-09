@@ -3,6 +3,9 @@ import { Method } from './Method'; // Import the Method function to be tested
 import { DimoError } from '../errors';
 import { DimoEnvironment } from '../environments';
 
+jest.mock('axios');
+const mockedAxios = axios as jest.MockedFunction<typeof axios>;
+
 const PROD = 'Production';
 const DEV = 'Dev';
 const RESOURCE = {
@@ -13,8 +16,12 @@ const RESOURCE = {
 const PARAM = { param1: 'value1' };
 
 describe('Method Function', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     test('Valid API Call - Device Definitions API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
+        mockedAxios.mockResolvedValue({ data: 'device definitions api running!' } as any);
 
         const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.DeviceDefinitions, PARAM, DEV);
         const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.DeviceDefinitions, PARAM, PROD);
@@ -26,7 +33,7 @@ describe('Method Function', () => {
 
 
     test('Valid API Call - Devices API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
+        mockedAxios.mockResolvedValue({ data: { data: 'Server is up and running' } } as any);
 
         const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.Devices, PARAM, DEV);
         const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.Devices, PARAM, PROD);
@@ -37,7 +44,7 @@ describe('Method Function', () => {
     });
 
     test('Valid API Call - Token Exchange API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
+        mockedAxios.mockResolvedValue({ data: { data: 'Server is up and running' } } as any);
 
         const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.TokenExchange, PARAM, DEV);
         const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.TokenExchange, PARAM, PROD);
@@ -48,7 +55,7 @@ describe('Method Function', () => {
     });
 
     test('Valid API Call - Valuations API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
+        mockedAxios.mockResolvedValue({ data: { code: 200, message: 'Server is up.' } } as any);
 
         const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.Valuations, PARAM, DEV);
         const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.Valuations, PARAM, PROD);
@@ -59,7 +66,7 @@ describe('Method Function', () => {
     });
 
     test('Valid API Call - Vehicle Signal Decoding API Server is up and returning data', async () => {
-        jest.spyOn(axios, 'request').mockResolvedValue({ data: { key: 'value' } });
+        mockedAxios.mockResolvedValue({ data: 'healthy' } as any);
 
         const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.VehicleSignalDecoding, PARAM, DEV);
         const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.VehicleSignalDecoding, PARAM, PROD);
