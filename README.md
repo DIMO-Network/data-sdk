@@ -293,5 +293,87 @@ const totalNetworkVehicles = await dimo.identity.query({
 
 This GraphQL API query is equivalent to calling `dimo.identity.countDimoVehicles()`.
 
+### Agents API
+
+The DIMO Agents API enables developers to create intelligent AI agents that can interact with vehicle data through natural language. These agents can query vehicle information, real-time telemetry, perform web searches to answer questions about vehicles and nearby services, and more.
+
+#### Create an Agent
+
+Create a new conversational AI agent with the specified configuration:
+
+```ts
+const agent = await dimo.agents.createAgent({
+  ...developerJwt,
+  type: "driver_agent_v1", // Optional: defaults to "driver_agent_v1"
+  personality: "uncle_mechanic", // Optional: defaults to "uncle_mechanic"
+  secrets: {
+    DIMO_API_KEY: "<YOUR_API_KEY>"
+  },
+  variables: {
+    USER_WALLET: "0x1234567890abcdef1234567890abcdef12345678",
+    VEHICLE_IDS: "[872, 1234]"
+  }
+});
+```
+
+Available personalities: `uncle_mechanic`, `master_technician`, `concierge`, `driving_enthusiast`, `fleet_manager_pro`
+
+#### Send a Message
+
+Send a message to an agent and receive a complete response synchronously:
+
+```ts
+const response = await dimo.agents.sendMessage({
+  ...developerJwt,
+  agentId: "agent-abc123def456",
+  message: "What's the make and model of my vehicle?"
+});
+```
+
+#### Stream a Message
+
+Send a message and receive real-time token-by-token streaming response:
+
+```ts
+const stream = await dimo.agents.streamMessage({
+  ...developerJwt,
+  agentId: "agent-abc123def456",
+  message: "What's my current speed?"
+});
+
+stream.on('token', (chunk) => {
+  console.log(chunk.content);
+});
+
+stream.on('done', (metadata) => {
+  console.log('Vehicles queried:', metadata.vehiclesQueried);
+});
+```
+
+#### Get Conversation History
+
+Retrieve the complete conversation history for an agent:
+
+```ts
+const history = await dimo.agents.getHistory({
+  ...developerJwt,
+  agentId: "agent-abc123def456",
+  limit: 50 // Optional
+});
+```
+
+#### Delete an Agent
+
+Permanently delete an agent and all associated resources:
+
+```ts
+await dimo.agents.deleteAgent({
+  ...developerJwt,
+  agentId: "agent-abc123def456"
+});
+```
+
+For more details, visit the [Agents API Documentation](https://www.dimo.org/docs/api-references/agents-api).
+
 ## How to Contribute to the SDK
 Read more about contributing [here](https://github.com/DIMO-Network/data-sdk/blob/master/CONTRIBUTING.md).

@@ -1,6 +1,6 @@
 {
   "name": "@dimo-network/data-sdk",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "DIMO Data SDK for JavaScript",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -8,7 +8,8 @@
   "author": "James Li",
   "contributors": [
     "Yusuf Çırak",
-    "Eduardo Rodriguez"
+    "Eduardo Rodriguez",
+    "Barrett Kowalsky"
   ],
   "license": "Apache-2.0",
   "type": "module",

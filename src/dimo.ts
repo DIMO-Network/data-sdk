@@ -6,9 +6,9 @@ import { DimoError } from "./errors";
 import { Identity, Telemetry } from "./graphql/resources/DimoGraphqlResources";
 
 import {
+	Agents,
 	Attestation,
 	Auth,
-	Conversations,
 	DeviceDefinitions,
 	Devices,
 	TokenExchange,
@@ -20,9 +20,9 @@ import {
 // import { Stream } from './streamr';
 
 export class DIMO {
+	public agents: Agents;
 	public attestation: Attestation;
 	public auth: Auth;
-	public conversations: Conversations;
 	public devicedefinitions: DeviceDefinitions;
 	public devices: Devices;
 	public identity: Identity;
@@ -39,12 +39,9 @@ export class DIMO {
 		/**
 		 * Set up all REST Endpoints
 		 */
+		this.agents = new Agents(DimoEnvironment[env].Agents, env);
 		this.attestation = new Attestation(DimoEnvironment[env].Attestation, env);
 		this.auth = new Auth(DimoEnvironment[env].Auth, env);
-		this.conversations = new Conversations(
-			DimoEnvironment[env].Conversations,
-			env,
-		);
 		this.devicedefinitions = new DeviceDefinitions(
 			DimoEnvironment[env].DeviceDefinitions,
 			env,
