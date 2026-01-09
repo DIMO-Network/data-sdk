@@ -1,10 +1,10 @@
 import { Resource } from '../../Resource';
 import { DimoEnvironment } from '../../../environments';
 
-export class Conversations extends Resource {
+export class Agents extends Resource {
 
     constructor(api: any, env: keyof typeof DimoEnvironment) {
-        super(api, 'Conversations', env);
+        super(api, 'Agents', env);
         this.setResource({
             healthCheck: {
                 method: 'GET',
@@ -14,9 +14,9 @@ export class Conversations extends Resource {
                 method: 'POST',
                 path: '/agents',
                 body: {
-                    'personality': true,
+                    'type': false,
+                    'personality': false,
                     'secrets': true,
-                    'type': true,
                     'variables': true,
                 },
                 auth: 'developer_jwt'
@@ -54,6 +54,15 @@ export class Conversations extends Resource {
                 },
                 auth: 'developer_jwt'
             }
-        })
+        });
+
+        const originalCreateAgent = this.createAgent;
+        this.createAgent = (params: any = {}) => {
+            return originalCreateAgent({
+                type: 'driver_agent_v1',
+                ...params
+            });
+        };
     }
 }
+

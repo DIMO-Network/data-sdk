@@ -1,8 +1,8 @@
 /** @format */
 
+import { Agents } from './Agents';
 import { Attestation } from './Attestation';
 import { Auth } from './Auth';
-import { Conversations } from './Conversations';
 import { DeviceDefinitions } from './DeviceDefinitions';
 import { Devices } from './Devices';
 import { TokenExchange } from './TokenExchange';
@@ -11,9 +11,9 @@ import { Valuations } from './Valuations';
 import { VehicleTriggers } from './VehicleTriggers';
 
 export {
+	Agents,
 	Attestation,
 	Auth,
-	Conversations,
 	DeviceDefinitions,
 	Devices,
 	TokenExchange,
