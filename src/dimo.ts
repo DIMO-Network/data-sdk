@@ -11,6 +11,7 @@ import {
 	Auth,
 	DeviceDefinitions,
 	Devices,
+	Fetch,
 	TokenExchange,
 	Trips,
 	Valuations,
@@ -25,6 +26,7 @@ export class DIMO {
 	public auth: Auth;
 	public devicedefinitions: DeviceDefinitions;
 	public devices: Devices;
+	public fetch: Fetch;
 	public identity: Identity;
 	public telemetry: Telemetry;
 	public tokenexchange: TokenExchange;
@@ -47,6 +49,7 @@ export class DIMO {
 			env,
 		);
 		this.devices = new Devices(DimoEnvironment[env].Devices, env);
+		this.fetch = new Fetch(DimoEnvironment[env].Fetch, env);
 		this.tokenexchange = new TokenExchange(
 			DimoEnvironment[env].TokenExchange,
 			env,
