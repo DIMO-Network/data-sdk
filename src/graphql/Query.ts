@@ -71,6 +71,7 @@ export const Query = async(resource: any, baseUrl: any, params: any = {}, env: k
                 }
             }
         }
+        requestData.query = query;
     }
 
     try {
@@ -80,13 +81,14 @@ export const Query = async(resource: any, baseUrl: any, params: any = {}, env: k
             headers: headers,
             data: requestData
         });
-      
+
         return response.data;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error executing GraphQL query:', error);
         throw new DimoError({
-            message: `Error`,
-            statusCode: 400
+            message: `Error executing GraphQL query`,
+            statusCode: error.response?.status ?? 400,
+            body: error.response?.data
         });
     }
 };
@@ -127,11 +129,12 @@ export const CustomQuery = async (resource: any, baseUrl: string, params: any = 
         });
 
         return response.data;
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error executing Custom GraphQL query:', error);
         throw new DimoError({
             message: 'Error executing Custom GraphQL query',
-            statusCode: 400
+            statusCode: error.response?.status ?? 400,
+            body: error.response?.data
         });
     }
 };

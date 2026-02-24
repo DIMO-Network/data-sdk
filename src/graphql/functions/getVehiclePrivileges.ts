@@ -3,7 +3,7 @@ import { DimoEnvironment } from '../../environments';
 import { DimoError } from '../../errors';
 import { paginate } from '../util/paginate';
 
-export const getVehiclePrivileges = async (input: { headers: any, tokenId: string, clientId?: string }, env: keyof typeof DimoEnvironment) => {
+export const getVehiclePrivileges = async (input: { headers: any, tokenId: number, clientId?: string }, env: keyof typeof DimoEnvironment) => {
     const sdk = new DIMO(env);
 
     try {
