@@ -1,4 +1,5 @@
-import { Identity } from './Identity'
-import { Telemetry } from './Telemetry'
+import { Fetch } from './Fetch';
+import { Identity } from './Identity';
+import { Telemetry } from './Telemetry';
 
-export { Identity, Telemetry };
+export { Fetch, Identity, Telemetry };

@@ -13,6 +13,7 @@ describe('Production Environment', () => {
         expect(dimo.auth.env).toBe(PROD);
         expect(dimo.devicedefinitions.env).toBe(PROD);
         expect(dimo.devices.env).toBe(PROD);
+        expect(dimo.fetch.env).toBe(PROD);
         expect(dimo.identity.env).toBe(PROD);
         expect(dimo.telemetry.env).toBe(PROD);
         expect(dimo.tokenexchange.env).toBe(PROD);
@@ -26,6 +27,7 @@ describe('Production Environment', () => {
         expect(dimo.auth.api).toBeDefined;
         expect(dimo.devicedefinitions.api).toBeDefined;
         expect(dimo.devices.api).toBeDefined;
+        expect(dimo.fetch.api).toBeDefined;
         expect(dimo.identity.api).toBeDefined;
         expect(dimo.telemetry.api).toBeDefined;
         expect(dimo.tokenexchange.api).toBeDefined;
@@ -41,6 +43,7 @@ describe('Dev Environment', () => {
         expect(devDimo.auth.env).toBe(DEV);
         expect(devDimo.devicedefinitions.env).toBe(DEV);
         expect(devDimo.devices.env).toBe(DEV);
+        expect(devDimo.fetch.env).toBe(DEV);
         expect(devDimo.identity.env).toBe(DEV);
         expect(devDimo.telemetry.env).toBe(DEV);
         expect(devDimo.tokenexchange.env).toBe(DEV);
@@ -54,6 +57,7 @@ describe('Dev Environment', () => {
         expect(devDimo.auth.api).toBeDefined;
         expect(devDimo.devicedefinitions.api).toBeDefined;
         expect(devDimo.devices.api).toBeDefined;
+        expect(devDimo.fetch.api).toBeDefined;
         expect(devDimo.identity.api).toBeDefined;
         expect(devDimo.telemetry.api).toBeDefined;
         expect(devDimo.tokenexchange.api).toBeDefined;

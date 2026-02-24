@@ -5,7 +5,6 @@ import { Attestation } from './Attestation';
 import { Auth } from './Auth';
 import { DeviceDefinitions } from './DeviceDefinitions';
 import { Devices } from './Devices';
-import { Fetch } from './Fetch';
 import { TokenExchange } from './TokenExchange';
 import { Trips } from './Trips';
 import { Valuations } from './Valuations';
@@ -17,7 +16,6 @@ export {
 	Auth,
 	DeviceDefinitions,
 	Devices,
-	Fetch,
 	TokenExchange,
 	Trips,
 	Valuations,

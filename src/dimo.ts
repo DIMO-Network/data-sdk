@@ -3,7 +3,11 @@
 import { DimoEnvironment } from "./environments";
 import { DimoError } from "./errors";
 
-import { Identity, Telemetry } from "./graphql/resources/DimoGraphqlResources";
+import {
+	Fetch,
+	Identity,
+	Telemetry,
+} from "./graphql/resources/DimoGraphqlResources";
 
 import {
 	Agents,
@@ -11,7 +15,6 @@ import {
 	Auth,
 	DeviceDefinitions,
 	Devices,
-	Fetch,
 	TokenExchange,
 	Trips,
 	Valuations,
@@ -37,6 +40,7 @@ export class DIMO {
 	constructor(env: keyof typeof DimoEnvironment) {
 		this.identity = new Identity(DimoEnvironment[env].Identity, env);
 		this.telemetry = new Telemetry(DimoEnvironment[env].Telemetry, env);
+		this.fetch = new Fetch(DimoEnvironment[env].Fetch, env);
 
 		/**
 		 * Set up all REST Endpoints
@@ -49,7 +53,6 @@ export class DIMO {
 			env,
 		);
 		this.devices = new Devices(DimoEnvironment[env].Devices, env);
-		this.fetch = new Fetch(DimoEnvironment[env].Fetch, env);
 		this.tokenexchange = new TokenExchange(
 			DimoEnvironment[env].TokenExchange,
 			env,
