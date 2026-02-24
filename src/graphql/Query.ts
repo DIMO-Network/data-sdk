@@ -44,18 +44,31 @@ export const Query = async(resource: any, baseUrl: any, params: any = {}, env: k
 
     }
 
-    const variables = resource.params || {};
+    const paramDefs = resource.params || {};
     let query = resource.query;
+    let requestData: { query: string; variables?: Record<string, unknown> } = { query };
 
-    for (const key in variables) {
-        const placeholder = new RegExp(`\\$${key}\\b`, 'g');
-        if (variables[key] === true) {
-            if (params[key] === undefined || params[key] === null) {
-                // ACC-303: Replace the placeholder with null string to handle pagination
-                query = query.replace(placeholder, "null");
-            } else {
-                const value = typeof params[key] === 'string' ? `"${params[key]}"` : params[key];
-                query = query.replace(placeholder, value);
+    if (resource.useVariables && resource.variableKeys) {
+        const variables: Record<string, unknown> = {};
+        for (const key of resource.variableKeys) {
+            if (params[key] !== undefined && params[key] !== null) {
+                variables[key] = params[key];
+            }
+        }
+        if (Object.keys(variables).length > 0) {
+            requestData.variables = variables;
+        }
+    } else {
+        for (const key in paramDefs) {
+            const placeholder = new RegExp(`\\$${key}\\b`, 'g');
+            if (paramDefs[key] === true) {
+                if (params[key] === undefined || params[key] === null) {
+                    // ACC-303: Replace the placeholder with null string to handle pagination
+                    query = query.replace(placeholder, "null");
+                } else {
+                    const value = typeof params[key] === 'string' ? `"${params[key]}"` : params[key];
+                    query = query.replace(placeholder, value);
+                }
             }
         }
     }
@@ -65,9 +78,7 @@ export const Query = async(resource: any, baseUrl: any, params: any = {}, env: k
             method: 'POST',
             url: baseUrl,
             headers: headers,
-            data: {
-                query
-            }
+            data: requestData
         });
       
         return response.data;

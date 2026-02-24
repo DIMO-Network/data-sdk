@@ -293,6 +293,51 @@ const totalNetworkVehicles = await dimo.identity.query({
 
 This GraphQL API query is equivalent to calling `dimo.identity.countDimoVehicles()`.
 
+#### Fetch API (raw vehicle data)
+
+The Fetch API provides access to raw vehicle data (CloudEvents) stored in the cloud. `dimo.fetch` uses the same GraphQL endpoint as the [Fetch API](https://docs.dimo.org/developer-platform/api-references/fetch-api) and requires a Vehicle JWT with raw data permission (e.g. privilege that grants GetRawData).
+
+All methods require `did` (the vehicle's ERC721 DID, e.g. `did:eth:1:0x...:123456`); use the same DID as the JWT's `asset` claim. You can get the DID from the token exchange response or by resolving the vehicle via the Identity API.
+
+```ts
+// List cloud event index keys
+await dimo.fetch.getIndexKeys({
+  ...vehicleJwt,
+  did: '<vehicle_did>',
+  limit: 10,
+  filter: { type: '...', after: '...' } // optional
+});
+
+// Latest index key
+await dimo.fetch.getLatestIndexKey({
+  ...vehicleJwt,
+  did: '<vehicle_did>',
+  filter: { type: '...' } // optional
+});
+
+// Latest full cloud event
+await dimo.fetch.getLatestObject({
+  ...vehicleJwt,
+  did: '<vehicle_did>',
+  filter: { type: '...' } // optional
+});
+
+// List full cloud events
+await dimo.fetch.getObjects({
+  ...vehicleJwt,
+  did: '<vehicle_did>',
+  limit: 10,
+  filter: { id, type, source, producer, before, after } // optional, see Fetch API docs
+});
+
+// Custom GraphQL query
+await dimo.fetch.query({
+  ...vehicleJwt,
+  query: '...'
+});
+```
+
+Filter options and full details: [Fetch API docs](https://docs.dimo.org/developer-platform/api-references/fetch-api).
 ### Agents API
 
 The DIMO Agents API enables developers to create intelligent AI agents that can interact with vehicle data through natural language. These agents can query vehicle information, real-time telemetry, perform web searches to answer questions about vehicles and nearby services, and more.
