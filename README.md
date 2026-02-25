@@ -327,7 +327,7 @@ await dimo.fetch.getObjects({
   ...vehicleJwt,
   did: '<vehicle_did>',
   limit: 10,
-  filter: { id, type, source, producer, before, after } // optional, see Fetch API docs
+  filter: { id, type, dataversion, source, producer, before, after } // optional, see Fetch API docs
 });
 
 // Custom GraphQL query
