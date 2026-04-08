@@ -16,23 +16,6 @@ export const DimoEnvironment = {
 		VehicleSignalDecoding: 'https://vehicle-signal-decoding.dimo.zone',
 		VehicleTriggers: 'https://vehicle-triggers-api.dimo.zone',
 	},
-	Dev: {
-		Agents: 'https://agents.dev.dimo.zone',
-		Attestation: 'https://attestation-api.dev.dimo.zone',
-		Auth: 'https://auth.dev.dimo.zone',
-		Identity: 'https://identity-api.dev.dimo.zone/query',
-		Devices: 'https://devices-api.dev.dimo.zone',
-		DeviceDefinitions: 'https://device-definitions-api.dev.dimo.zone',
-		Fetch: 'https://fetch-api.dev.dimo.zone/query',
-		Telemetry: 'https://telemetry-api.dev.dimo.zone/query',
-		TokenExchange: 'https://token-exchange-api.dev.dimo.zone',
-		Trips: 'https://trips-api.dev.dimo.zone',
-		Valuations: 'https://valuations-api.dev.dimo.zone',
-		VehicleSignalDecoding: 'https://vehicle-signal-decoding.dev.dimo.zone',
-		VehicleTriggers: 'https://vehicle-triggers-api.dev.dimo.zone',
-	},
 } as const;
 
-export type DimoEnvironment =
-	| typeof DimoEnvironment.Production
-	| typeof DimoEnvironment.Dev;
+export type DimoEnvironment = typeof DimoEnvironment.Production;
