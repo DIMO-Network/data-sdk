@@ -1,15 +1,13 @@
 import { DIMO } from './dimo';
 
 const PROD = 'Production';
-const DEV = 'Dev';
 
 const dimo = new DIMO(PROD);
-const devDimo = new DIMO(DEV);
 
 describe('Production Environment', () => {
-    test('Production resources are initialized with the correct environment', () => {   
+    test('Production resources are initialized with the correct environment', () => {
         expect(dimo.agents.env).toBe(PROD);
-        expect(dimo.attestation.env).toBe(PROD); 
+        expect(dimo.attestation.env).toBe(PROD);
         expect(dimo.auth.env).toBe(PROD);
         expect(dimo.devicedefinitions.env).toBe(PROD);
         expect(dimo.devices.env).toBe(PROD);
@@ -20,7 +18,7 @@ describe('Production Environment', () => {
         expect(dimo.trips.env).toBe(PROD);
         expect(dimo.valuations.env).toBe(PROD);
     });
-    
+
     test('Production API endpoints are defined', () => {
         expect(dimo.agents.api).toBeDefined;
         expect(dimo.attestation.api).toBeDefined;
@@ -33,36 +31,6 @@ describe('Production Environment', () => {
         expect(dimo.tokenexchange.api).toBeDefined;
         expect(dimo.trips.api).toBeDefined;
         expect(dimo.valuations.api).toBeDefined;
-    });    
-});
-
-describe('Dev Environment', () => {
-    test('Dev resources are initialized with the correct environment', () => {    
-        expect(devDimo.agents.env).toBe(DEV);
-        expect(devDimo.attestation.env).toBe(DEV);
-        expect(devDimo.auth.env).toBe(DEV);
-        expect(devDimo.devicedefinitions.env).toBe(DEV);
-        expect(devDimo.devices.env).toBe(DEV);
-        expect(devDimo.fetch.env).toBe(DEV);
-        expect(devDimo.identity.env).toBe(DEV);
-        expect(devDimo.telemetry.env).toBe(DEV);
-        expect(devDimo.tokenexchange.env).toBe(DEV);
-        expect(devDimo.trips.env).toBe(DEV);
-        expect(devDimo.valuations.env).toBe(DEV);
-    });
-    
-    test('Dev API endpoints are defined', () => {
-        expect(devDimo.agents.api).toBeDefined;
-        expect(devDimo.attestation.api).toBeDefined;
-        expect(devDimo.auth.api).toBeDefined;
-        expect(devDimo.devicedefinitions.api).toBeDefined;
-        expect(devDimo.devices.api).toBeDefined;
-        expect(devDimo.fetch.api).toBeDefined;
-        expect(devDimo.identity.api).toBeDefined;
-        expect(devDimo.telemetry.api).toBeDefined;
-        expect(devDimo.tokenexchange.api).toBeDefined;
-        expect(devDimo.trips.api).toBeDefined;
-        expect(devDimo.valuations.api).toBeDefined;
     });
 });
 

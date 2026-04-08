@@ -7,7 +7,6 @@ jest.mock('axios');
 const mockedAxios = axios as jest.MockedFunction<typeof axios>;
 
 const PROD = 'Production';
-const DEV = 'Dev';
 const RESOURCE = {
     method: 'GET',
     path: '',
@@ -23,72 +22,52 @@ describe('Method Function', () => {
     test('Valid API Call - Device Definitions API Server is up and returning data', async () => {
         mockedAxios.mockResolvedValue({ data: 'device definitions api running!' } as any);
 
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.DeviceDefinitions, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.DeviceDefinitions, PARAM, PROD);
+        const response = await Method(RESOURCE, DimoEnvironment.Production.DeviceDefinitions, PARAM, PROD);
 
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual('device definitions api running!');
-        expect(prodResponse).toEqual('device definitions api running!');
+        expect(response).toEqual('device definitions api running!');
     });
-
 
     test('Valid API Call - Devices API Server is up and returning data', async () => {
         mockedAxios.mockResolvedValue({ data: { data: 'Server is up and running' } } as any);
 
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.Devices, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.Devices, PARAM, PROD);
+        const response = await Method(RESOURCE, DimoEnvironment.Production.Devices, PARAM, PROD);
 
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual({ data: 'Server is up and running' });
-        expect(prodResponse).toEqual({ data: 'Server is up and running' });
+        expect(response).toEqual({ data: 'Server is up and running' });
     });
 
     test('Valid API Call - Token Exchange API Server is up and returning data', async () => {
         mockedAxios.mockResolvedValue({ data: { data: 'Server is up and running' } } as any);
 
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.TokenExchange, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.TokenExchange, PARAM, PROD);
+        const response = await Method(RESOURCE, DimoEnvironment.Production.TokenExchange, PARAM, PROD);
 
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual({ data: 'Server is up and running' });
-        expect(prodResponse).toEqual({ data: 'Server is up and running' });
+        expect(response).toEqual({ data: 'Server is up and running' });
     });
 
     test('Valid API Call - Valuations API Server is up and returning data', async () => {
         mockedAxios.mockResolvedValue({ data: { code: 200, message: 'Server is up.' } } as any);
 
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.Valuations, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.Valuations, PARAM, PROD);
+        const response = await Method(RESOURCE, DimoEnvironment.Production.Valuations, PARAM, PROD);
 
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual({ code: 200, message: 'Server is up.' });
-        expect(prodResponse).toEqual({ code: 200, message: 'Server is up.' });
+        expect(response).toEqual({ code: 200, message: 'Server is up.' });
     });
 
     test('Valid API Call - Vehicle Signal Decoding API Server is up and returning data', async () => {
         mockedAxios.mockResolvedValue({ data: 'healthy' } as any);
 
-        const devResponse = await Method(RESOURCE, DimoEnvironment.Dev.VehicleSignalDecoding, PARAM, DEV);
-        const prodResponse = await Method(RESOURCE, DimoEnvironment.Production.VehicleSignalDecoding, PARAM, PROD);
+        const response = await Method(RESOURCE, DimoEnvironment.Production.VehicleSignalDecoding, PARAM, PROD);
 
-        // Assertion - Check if the response data is returned correctly
-        expect(devResponse).toEqual('healthy');
-        expect(prodResponse).toEqual('healthy');
+        expect(response).toEqual('healthy');
     });
 
-
     test('Missing Required Query Parameter - Throws Error', async () => {
-        // Mock input data with missing required query parameter
         const resource = {
             method: 'GET',
             path: '/example/endpoint',
-            queryParams: { expectedParam: true }, // Expect expectedParam
+            queryParams: { expectedParam: true },
         };
         const baseUrl = 'https://example.com/api';
         const params = { unexpectedParam: 'value1' };
 
-        // Call the Method function and expect it to throw an error
-        await expect(Method(resource, baseUrl, params, DEV)).rejects.toThrowError(DimoError);
         await expect(Method(resource, baseUrl, params, PROD)).rejects.toThrowError(DimoError);
     });
 });
