@@ -37,9 +37,7 @@
   },
   "dependencies": {
     "axios": "^1.6.7",
-    "fs": "^0.0.1-security",
     "jwt-decode": "^4.0.0",
-    "rxjs": "^7.8.1",
     "viem": "^2.57.16"
   },
   "devDependencies": {
@@ -47,17 +45,14 @@
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-typescript": "^12.1.2",
-    "@types/dotenv-safe": "^8.1.6",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.25",
     "@types/rollup-plugin-node-globals": "^1.4.5",
-    "eslint": "^8.56.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
     "rollup": "^4.29.1",
     "rollup-plugin-node-globals": "^1.4.0",
     "ts-jest": "^29.1.4",
+    "tslib": "^2.9.1",
     "typescript": "^5.4.5"
   },
   "optionalDependencies": {
