@@ -1,17 +1,22 @@
+import { readFileSync } from 'node:fs';
+import { builtinModules } from 'node:module';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
-import globals from 'rollup-plugin-node-globals';
+import { dts } from 'rollup-plugin-dts';
 
-const external = [
-  // Node built-ins:
-  'node:util','util','node:stream','stream','path','fs','events','buffer','os','http','https','url','zlib','tty'
-];
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+const dependencies = Object.keys(pkg.dependencies ?? {});
 
-export default {
+const external = (id) =>
+  id.startsWith('node:') ||
+  builtinModules.includes(id) ||
+  dependencies.some((dep) => id === dep || id.startsWith(`${dep}/`));
+
+const bundle = {
   input: './src/index.ts',
-  external: external,
+  external,
   output: [
     {
       dir: './dist',
@@ -21,32 +26,39 @@ export default {
     },
     {
       dir: './dist',
-      entryFileNames: 'cjs/[name].js',
+      entryFileNames: 'cjs/[name].cjs',
       format: 'cjs',
       sourcemap: true,
-      plugins: [
-        globals(), // Provides global variables for Node.js built-ins
-      ]
     },
   ],
   plugins: [
     typescript({
       tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationDir: './dist/types',
-    }), // Handles TypeScript (if needed)
-    resolve({ 
-      preferBuiltins: true, 
+      declaration: false,
+    }),
+    resolve({
+      preferBuiltins: true,
       extensions: ['.js', '.ts'],
-    }), // Resolves node_modules and relative paths     
-    commonjs(),// Converts CommonJS modules to ES6   
-    json(), // Allows importing JSON files
+    }),
+    commonjs(),
+    json(),
   ],
   onwarn(warning, warn) {
-    // Print detailed warnings
     if (warning.code === 'UNRESOLVED_IMPORT') {
       throw new Error(warning.message);
     }
     warn(warning);
   },
 };
+
+const types = {
+  input: './src/index.ts',
+  external,
+  output: [
+    { file: './dist/types/index.d.ts', format: 'es' },
+    { file: './dist/types/index.d.cts', format: 'es' },
+  ],
+  plugins: [dts()],
+};
+
+export default [bundle, types];
