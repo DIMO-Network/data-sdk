@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
       - name: Clear npm cache
         run: npm cache clean --force
       - name: Install dependencies
@@ -36,10 +36,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: https://registry.npmjs.org/
-      - name: Install latest npm
-        run: npm install -g npm@latest
+      - name: Install npm 11
+        run: npm install -g npm@^11.5.1
       - name: Clear npm cache
         run: npm cache clean --force
       - name: Install dependencies
