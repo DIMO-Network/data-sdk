@@ -32,10 +32,7 @@ const bundle = {
     },
   ],
   plugins: [
-    typescript({
-      tsconfig: './tsconfig.json',
-      declaration: false,
-    }),
+    typescript({ tsconfig: './tsconfig.json' }),
     resolve({
       preferBuiltins: true,
       extensions: ['.js', '.ts'],

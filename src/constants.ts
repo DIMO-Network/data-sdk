@@ -1,7 +1,6 @@
 export const DimoConstants = {
     Production: {
         'NFT_address': '0xbA5738a18d83D41847dfFbDC6101d37C69c9B0cF',
-        'RPC_provider': 'https://eth.llamarpc.com',
     },
     Query: {
         'PAGE_SIZE': 100
