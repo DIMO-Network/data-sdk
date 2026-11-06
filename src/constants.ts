@@ -1,9 +1,7 @@
 export const DimoConstants = {
     Production: {
         'NFT_address': '0xbA5738a18d83D41847dfFbDC6101d37C69c9B0cF',
-    },
-    Dev: {
-        'NFT_address': '0x45fbCD3ef7361d156e8b16F5538AE36DEdf61Da8',
+        'RPC_provider': 'https://eth.llamarpc.com',
     },
     Query: {
         'PAGE_SIZE': 100
@@ -12,5 +10,4 @@ export const DimoConstants = {
 
 export type DimoConstants =
     | typeof DimoConstants.Production
-    | typeof DimoConstants.Dev
     | typeof DimoConstants.Query

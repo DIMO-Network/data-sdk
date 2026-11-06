@@ -1,6 +1,6 @@
 {
   "name": "@dimo-network/data-sdk",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "DIMO Data SDK for JavaScript",
   "main": "dist/cjs/index.cjs",
   "module": "dist/esm/index.js",

@@ -52,6 +52,9 @@ As part of the authentication process, you will need to obtain a Developer Licen
 2. Click on `Create a license` and fill out the details about your license.
 3. Generate an API key and add in your preferred redirect URI.
 
+### Vehicle Simulator (Sandbox Development)
+To develop and test without a real vehicle, use the **Vehicle Simulator** available in the [DIMO Developer Console](https://console.dimo.org/). The simulator lets you create a virtual vehicle that generates synthetic telemetry data, allowing you to test the full data flow — authentication, token exchange, and data queries — without physical hardware.
+
 ### Authentication
 
 The SDK provides you with all the steps needed in the [Authentication Flow](https://docs.dimo.org/developer-platform/getting-started/developer-guide/authentication) to obtain a Developer JWT & to get Vehicle JWT for each vehicle shared with your app.

@@ -4,7 +4,6 @@ import { DimoError } from '../errors';
 import { DimoEnvironment } from '../environments';
 
 const PROD = 'Production';
-const DEV = 'Dev';
 const RESOURCE = {
     method: 'POST',
     path: '',
@@ -24,32 +23,20 @@ describe('Query Function', () => {
             }
         }`});
 
-        const devResponse = await CustomQuery(RESOURCE, DimoEnvironment.Dev.Identity, PARAM);
-        const prodResponse = await CustomQuery(RESOURCE, DimoEnvironment.Production.Identity, PARAM);
+        const response = await CustomQuery(RESOURCE, DimoEnvironment.Production.Identity, PARAM);
 
-        // Assertion - Check if the response data is defined
-        expect(devResponse.data).toBeDefined();
-        expect(prodResponse.data).toBeDefined();
+        expect(response.data).toBeDefined();
     });
 
     test('Missing Required Query Parameter - Throws Error', async () => {
-        // Mock input data with missing required query parameter
-        const devResource = {
+        const resource = {
             Query: 'POST',
             path: '',
             queryParams: { expectedParam: true },
         };
-        const prodResource = {
-            Query: 'POST',
-            path: '',
-            queryParams: { expectedParam: true },
-        }
         const params = { unexpectedParam: 'value1' };
 
-        // Call the Query function and expect it to throw an error
-        await expect(Query(devResource, DimoEnvironment.Dev.Identity, params, DEV)).rejects.toThrow(DimoError);
-        await expect(Query(prodResource, DimoEnvironment.Production.Identity, params, PROD)).rejects.toThrow(DimoError);
-        await expect(Query(devResource, DimoEnvironment.Dev.Telemetry, params, DEV)).rejects.toThrow(DimoError);
-        await expect(Query(prodResource, DimoEnvironment.Production.Telemetry, params, PROD)).rejects.toThrow(DimoError);
+        await expect(Query(resource, DimoEnvironment.Production.Identity, params, PROD)).rejects.toThrow(DimoError);
+        await expect(Query(resource, DimoEnvironment.Production.Telemetry, params, PROD)).rejects.toThrow(DimoError);
     });
 });
