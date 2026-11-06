@@ -40,7 +40,7 @@
     "fs": "^0.0.1-security",
     "jwt-decode": "^4.0.0",
     "rxjs": "^7.8.1",
-    "web3": "^4.6.0"
+    "viem": "^2.57.16"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.2",
